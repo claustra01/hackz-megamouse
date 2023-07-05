@@ -1,3 +1,6 @@
 {{ define "CUUID" }}
-  <div>UUID: {{ .UUID }}</div>
+<div {{ state . }} name="CUUID">
+	<div>UUID: {{ .UUID }}</div>
+	<button onclick="Action(this, 'Reload')">Reload</button>
+</div>
 {{ end }}
