@@ -6,4 +6,4 @@ WORKDIR /app/client
 COPY . .
 EXPOSE 3000
 
-CMD ["go", "run", "main.go"]
+CMD ["go", "run", "."]
