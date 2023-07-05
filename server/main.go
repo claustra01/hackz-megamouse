@@ -17,7 +17,7 @@ func main() {
 
 	e := echo.New()
 
-	e.GET("/api/sample/", handler.Sample)
+	e.GET("/v1/sample/", handler.Sample)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

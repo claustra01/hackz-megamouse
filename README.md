@@ -1,3 +1,8 @@
+## 開発環境で実行
+- `docker compose up --build` でビルド&実行できる
+- `/` 以下がfrontend
+- `/api/` 以下がbackend
+
 ## エラー・ログについて
 3段階のフォーマットを使用
 - `log.Fatal("[ERROR] ", err)` アプリを止めるべき致命的なエラー (例: .envファイルが見つからない)

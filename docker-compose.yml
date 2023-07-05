@@ -19,3 +19,15 @@ services:
       - ./server:/opt/server
     ports:
       - "8080:8080"
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./nginx:/usr/share/nginx/html
+    ports:
+      - 80:80
+    depends_on:
+      - client
+      - server
