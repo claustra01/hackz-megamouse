@@ -1,6 +1,8 @@
 ## 開発環境での実行
 ### Dockerを使用する
 - `docker compose up --build` でビルド&実行できる
+- `http://localhost/` 以下がfrontend
+- `http://localhost/api/` 以下がbackend
 ### frontendのみ
 - `/client` に移動して `wasmserve` を実行
 - `http://localhost:8080/` を開く
