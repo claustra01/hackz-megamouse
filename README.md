@@ -4,10 +4,12 @@
 - `http://localhost/` 以下がfrontend
 - `http://localhost/api/` 以下がbackend
 ### frontendのみ
+- wasmserveが入っていなければ `go install github.com/hajimehoshi/wasmserve@latest` を実行
 - `/client` に移動して `wasmserve` を実行
 - `http://localhost:8080/` を開く
 ### backendのみ
-- `/server` に移動して `go run .` を実行
+- airが入っていなければ `go install github.com/cosmtrek/air@latest` を実行
+- `/server` に移動して `air` を実行
 - `http://localhost:8081/` を開く
 
 ## エラー・ログについて
