@@ -4,8 +4,7 @@ import (
 	"github.com/claustra01/hackz_megamouse/client/components"
 	"github.com/hexops/vecty"
 	"github.com/hexops/vecty/elem"
-	"github.com/hexops/vecty/event"
-	router "marwan.io/vecty-router"
+	"github.com/hexops/vecty/prop"
 )
 
 type PIndex struct {
@@ -20,9 +19,7 @@ func (p *PIndex) Render() vecty.ComponentOrHTML {
 		elem.Div(&components.CButton{}),
 		elem.Anchor(
 			vecty.Markup(
-				event.Click(func(e *vecty.Event) {
-					router.Redirect("/example")
-				}),
+				prop.Href("/example"),
 			),
 			vecty.Text("/exampleへ"),
 		),
