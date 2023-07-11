@@ -13,7 +13,10 @@
 - `http://localhost:8081/` を開く
 
 ## エラー・ログについて
-3段階のフォーマットを使用
+### frontend
+- `github.com/claustra01/hackz_megamouse/client/utils/js` をimportする
+- `js.ConsoleLog("log message...")` でブラウザのdevtoolにログを出力できる
+### backend
 - `log.Fatal("[ERROR] ", err)` アプリを止めるべき致命的なエラー (例: .envファイルが見つからない)
 - `log.Print("[ERROR] ", err)` アプリを止める必要のないレベルのエラー (例: レスポンスが返ってこない)
 - `log.Print("[INFO] log message...")` エラーではない通常のログ
