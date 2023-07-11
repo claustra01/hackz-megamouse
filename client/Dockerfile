@@ -1,9 +1,18 @@
-FROM golang:1.18-alpine
+FROM golang:1.18-alpine AS build
 ENV TZ /usr/share/zoneinfo/Asia/Tokyo
 
-WORKDIR /app/client
+WORKDIR /opt/client
 
 COPY . .
-RUN go install github.com/hajimehoshi/wasmserve@latest
+RUN GOOS=js GOARCH=wasm go build -o main.wasm
+RUN cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
 
-CMD ["wasmserve"]
+################################
+FROM nginx:latest
+
+ADD default.conf /etc/nginx/conf.d
+COPY --from=build /opt/client/ /etc/nginx/html/
+
+EXPOSE 8080
+
+CMD ["nginx", "-g", "daemon off;"]
