@@ -1,0 +1,40 @@
+name: Azure Container Registry CI/CD
+
+on:
+  push:
+    branches:
+      - feature/azure-cicd
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - feature/azure-cicd
+
+jobs:
+  build:
+    name: Build container image
+    runs-on: ubuntu-latest
+    steps:
+    
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Log into registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.ACR_ENDPOINT }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Client Build & Push
+        uses: docker/build-push-action@v3
+        with:
+          context: ./client
+          push: true
+          tags: ${{ secrets.ACR_ENDPOINT }}/client:latest
+
+      - name: Server Build & Push
+        uses: docker/build-push-action@v3
+        with:
+          context: ./server
+          push: true
+          tags: ${{ secrets.ACR_ENDPOINT }}/server:latest
