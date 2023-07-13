@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/claustra01/hackz_megamouse/server/db"
-	"github.com/claustra01/hackz_megamouse/server/handler"
+	"github.com/claustra01/hackz-megamouse/server/db"
+	"github.com/claustra01/hackz-megamouse/server/handler"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 )
