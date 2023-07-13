@@ -11,7 +11,6 @@ ENV TZ /usr/share/zoneinfo/Asia/Tokyo
 
 WORKDIR /opt/server
 COPY --from=build /build/binary .
-COPY --from=build /build/.env .
 
 EXPOSE 8081
 CMD ["./binary"]

@@ -1,8 +1,6 @@
 package main
 
 import (
-	"log"
-
 	"github.com/claustra01/hackz_megamouse/server/handler"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
@@ -10,10 +8,7 @@ import (
 
 func main() {
 
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatal("[ERROR] ", err)
-	}
+	godotenv.Load(".env")
 
 	e := echo.New()
 
