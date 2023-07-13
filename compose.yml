@@ -15,6 +15,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8081:8081
+    depends_on:
+      - db    
 
   proxy:
     build:
@@ -25,3 +27,16 @@ services:
     depends_on:
       - client
       - server
+
+  # dsn: "postgresql://db_user:db_pass@hackz-megamouse-db-1:5432/db"
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: db_user
+      POSTGRES_PASSWORD: db_pass
+      POSTGRES_DB: db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+  
+volumes:
+  db_data:
