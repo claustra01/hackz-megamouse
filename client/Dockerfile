@@ -7,7 +7,7 @@ RUN GOOS=js GOARCH=wasm go build -o main.wasm
 RUN cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
 
 ################################
-FROM nginx:latest
+FROM nginx:alpine
 ENV TZ /usr/share/zoneinfo/Asia/Tokyo
 
 ADD default.conf /etc/nginx/conf.d
