@@ -3,11 +3,11 @@ name: Azure Container Registry CI/CD
 on:
   push:
     branches:
-      - feature/azure-cicd
+      - main
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
-      - feature/azure-cicd
+      - main
 
 jobs:
   build:
