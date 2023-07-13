@@ -13,8 +13,7 @@ func main() {
 	db.Connect()
 
 	e := echo.New()
-
-	e.GET("/sample/", handler.Sample)
+	e.GET("/sample", handler.Sample)
 
 	e.Logger.Fatal(e.Start(":8081"))
 }

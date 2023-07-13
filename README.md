@@ -11,6 +11,8 @@
 - airが入っていなければ `go install github.com/cosmtrek/air@latest` を実行
 - `/server` に移動して `air` を実行
 - `http://localhost:8081/` を開く
+### dbのマイグレーション
+- `/server/main.go`内で`db.Migrate()`を1回実行すればマイグレーション&初期化が完了
 
 ## エラー・ログについて
 ### frontend
