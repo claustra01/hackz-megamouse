@@ -1,7 +1,7 @@
 package pages
 
 import (
-	"github.com/claustra01/hackz_megamouse/client/components"
+	"github.com/claustra01/hackz-megamouse/client/components"
 	"github.com/hexops/vecty"
 	"github.com/hexops/vecty/elem"
 	"github.com/hexops/vecty/prop"

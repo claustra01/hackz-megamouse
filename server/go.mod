@@ -1,4 +1,4 @@
-module github.com/claustra01/hackz_megamouse/server
+module github.com/claustra01/hackz-megamouse/server
 
 go 1.18
 
