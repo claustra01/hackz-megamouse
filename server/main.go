@@ -19,6 +19,7 @@ func main() {
 
 	e := echo.New()
 	e.POST("/login", handler.Login)
+	e.POST("/users", handler.SignUP)
 	e.GET("/sample", handler.Sample)
 
 	// user group
