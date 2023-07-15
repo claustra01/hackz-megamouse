@@ -46,9 +46,19 @@ func UpdateChallenge(c echo.Context) error {
 						"message": "Failed to update challenge",
 					})
 				}
-				return c.JSON(http.StatusOK, echo.Map{
-					"message": "Challenge updated successfully",
-				})
+				o_challenge := OmmitedChallenge{
+					Id: challenge.Id,
+					Title: challenge.Title,
+					Category: challenge.Category,
+					Description: challenge.Description,
+					FilePath: challenge.FilePath,
+					ConnectionInfo: challenge.ConnectionInfo,
+					Value: challenge.Value,
+					IsVisible: challenge.IsVisible,
+					CreatedAt: challenge.CreatedAt,
+					UpdatedAt: challenge.UpdatedAt,
+				}
+				return c.JSON(http.StatusOK, o_challenge)
 			}
 		}else{
 			return c.JSON(http.StatusForbidden, echo.Map{
