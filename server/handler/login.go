@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/claustra01/hackz-megamouse/server/db"
@@ -65,7 +66,7 @@ func Login(c echo.Context) error {
 			// トークン生成
 			token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 			// トークンに署名を付与
-			tokenString, err := token.SignedString([]byte("SECRET_KEY"))
+			tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET_KEY")))
 			if err != nil {
 				return err
 			}
