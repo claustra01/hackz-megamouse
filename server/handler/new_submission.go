@@ -10,8 +10,8 @@ import (
 )
 func NewSubmission(c echo.Context) error {
 	type Submission struct {
-		UserId uint `json:"userid"`
-		ChallengeId uint `json:"challengeid"`
+		UserId uint `json:"user_id"`
+		ChallengeId uint `json:"challenge_id"`
 		Body string `json:"body"`
 	}
 
@@ -29,10 +29,12 @@ func NewSubmission(c echo.Context) error {
 	}
 
 
-	// 問題をみて答えが合っていたらisCollectをtrueにしてsubmissionとsolveをcreate
+	// 問題をみて答えが合っていたらisCollectをtrueにしてsubmissionとsolveをcreate,scoreを加算
 	// あっていなければisCollectをfalseにしてsubmissionをcreate
+	var user db.User
 	var challenge db.Challenge
-	if err := db.DB.Where("id = ?", obj.ChallengeId).First(&challenge).Error; err != nil {
+
+	if err := db.DB.Where("id = ?", obj.UserId).First(&user).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return c.JSON(http.StatusNotFound, echo.Map{
 				"message": "User Not Found",
@@ -43,35 +45,56 @@ func NewSubmission(c echo.Context) error {
 			})
 		}
 	}else{
-		if challenge.Flag == obj.Body {
-		 // 処理
-			submission := db.Submission{
-			UserId: obj.UserId,
-			ChallengeId: obj.ChallengeId,
-			Body: obj.Body,
-			IsCollect: true,
+		if err := db.DB.Where("id = ?", obj.ChallengeId).First(&challenge).Error; err != nil {
+			if err == gorm.ErrRecordNotFound {
+				return c.JSON(http.StatusNotFound, echo.Map{
+					"message": "Challenge Not Found",
+				})
+			} else {
+				return c.JSON(http.StatusInternalServerError, echo.Map{
+					"message": "Database Error: " + err.Error(),
+				})
 			}
-			db.DB.Create(&submission)
-
-			solve := db.Solves{
-			UserId: obj.UserId,
-			ChallengeId: obj.ChallengeId,
-			Category: challenge.Category,
-			Value: challenge.Value,
-			}
-			db.DB.Create(&solve)
-
-			return c.JSON(http.StatusOK, "solved")
 		}else{
-			// 処理
-			submission := db.Submission{
-				UserId: obj.UserId,
-				ChallengeId: obj.ChallengeId,
+			if challenge.Flag == obj.Body {
+			 // db登録処理
+				submission := db.Submission{
+				UserId: user.Id,
+				ChallengeId: challenge.Id,
 				Body: obj.Body,
-				IsCollect: false,
+				IsCollect: true,
+				}
+				db.DB.Create(&submission)
+	
+				solve := db.Solves{
+				UserId: user.Id,
+				ChallengeId: challenge.Id,
+				Category: challenge.Category,
+				Value: challenge.Value,
+				}
+				db.DB.Create(&solve)
+				// score加算
+				user.Score += uint(challenge.Value)
+				db.DB.Save(&user)
+				return c.JSON(http.StatusOK, echo.Map{
+					"prevscore": user.Score,
+					"message": "solved",
+				})
+
+
+			}else{
+				// 処理
+				submission := db.Submission{
+					UserId: obj.UserId,
+					ChallengeId: obj.ChallengeId,
+					Body: obj.Body,
+					IsCollect: false,
+				}
+				db.DB.Create(&submission)
+				return c.JSON(http.StatusOK, echo.Map{
+					"message": "incollect",
+				})
 			}
-			db.DB.Create(&submission)
-			return c.JSON(http.StatusOK, "incollect")
 		}
 	}
 }
