@@ -9,13 +9,13 @@ import (
 	"gorm.io/gorm"
 )
 func NewSubmission(c echo.Context) error {
-	type Submission struct {
+	type Body struct {
 		UserId uint `json:"user_id"`
 		ChallengeId uint `json:"challenge_id"`
 		Body string `json:"body"`
 	}
 
-	obj := new(Submission)
+	obj := new(Body)
 	if err := c.Bind(obj); err != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{
 			"message": "Json Format Error: " + err.Error(),
@@ -76,10 +76,15 @@ func NewSubmission(c echo.Context) error {
 				// score加算
 				user.Score += uint(challenge.Value)
 				db.DB.Save(&user)
-				return c.JSON(http.StatusOK, echo.Map{
-					"prevscore": user.Score,
-					"message": "solved",
-				})
+				res := SubmissionRes{
+					Id: submission.Id,
+					UserId: submission.UserId,
+					ChallengeId: submission.ChallengeId,
+					Body: submission.Body,
+					IsCollect: submission.IsCollect,
+					CreatedAt: submission.CreatedAt,
+				}
+				return c.JSON(http.StatusCreated, res)
 
 
 			}else{
@@ -91,9 +96,15 @@ func NewSubmission(c echo.Context) error {
 					IsCollect: false,
 				}
 				db.DB.Create(&submission)
-				return c.JSON(http.StatusOK, echo.Map{
-					"message": "incollect",
-				})
+				res := SubmissionRes{
+					Id: submission.Id,
+					UserId: submission.UserId,
+					ChallengeId: submission.ChallengeId,
+					Body: submission.Body,
+					IsCollect: submission.IsCollect,
+					CreatedAt: submission.CreatedAt,
+				}
+				return c.JSON(http.StatusCreated, res)
 			}
 		}
 	}
