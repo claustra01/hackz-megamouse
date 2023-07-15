@@ -17,27 +17,21 @@ func SignUP(c echo.Context) error {
 		Password string `json:"password"`
 	}
 
-	type Message struct {
-		Message string `json:"message"`
-	}
-
 	// parse json
 	obj := new(Body)
 	if err := c.Bind(obj); err != nil {
 		// return 400
-		res := Message{
-			Message: "Json Format Error: " + err.Error(),
-		}
-		return c.JSON(http.StatusBadRequest, res)
+		return c.JSON(http.StatusBadRequest, echo.Map{
+			"message": "Json Format Error: " + err.Error(),
+		})
 	}
 
 	// check field
 	if util.HasEmptyField(obj, "Username", "Email", "Password") {
 		// return 400
-		res := Message{
-			Message: "Missing Required Field",
-		}
-		return c.JSON(http.StatusBadRequest, res)
+		return c.JSON(http.StatusBadRequest, echo.Map{
+			"message": "Missing Required Field",
+		})
 	}
 
 	var user db.User
@@ -51,24 +45,19 @@ func SignUP(c echo.Context) error {
 				Password: obj.Password,
 			}
 			db.DB.Create(&new)
-			res := Message{
-				Message: "User Created",
-			}
-			return c.JSON(http.StatusCreated, res)
+			return c.JSON(http.StatusCreated, new)
 
 		} else {
 			// return 500
-			res := Message{
-				Message: "Database Error: " + err.Error(),
-			}
-			return c.JSON(http.StatusInternalServerError, res)
+			return c.JSON(http.StatusInternalServerError, echo.Map{
+				"message": "Database Error: " + err.Error(),
+			})
 		}
 
 	} else {
 		// return 409
-		res := Message{
-			Message: "Email Conflict",
-		}
-		return c.JSON(http.StatusConflict, res)
+		return c.JSON(http.StatusConflict, echo.Map{
+			"message": "Email Conflict",
+		})
 	}
 }
