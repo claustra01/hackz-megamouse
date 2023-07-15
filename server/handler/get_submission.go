@@ -14,7 +14,7 @@ func GetSubmission(c echo.Context) error {
 	if err := db.DB.Where("id = ?", id).First(&submission).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return c.JSON(http.StatusNotFound, echo.Map{
-				"message": "Challenge not found",
+				"message": "Submission not found",
 			})
 
 		} else {
