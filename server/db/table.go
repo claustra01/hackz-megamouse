@@ -46,6 +46,6 @@ type Solves struct {
 	UserId      uint      `gorm:"primaryKey"`
 	ChallengeId uint      `gorm:"primaryKey"`
 	Category    string    `gorm:"not null"`
-	Value       string    `gorm:"not null"`
+	Value       int    `gorm:"not null"`
 	CreatedAt   time.Time `gorm:"default:current_timestamp"`
 }
