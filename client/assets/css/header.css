@@ -8,7 +8,7 @@
   background-color: black;
 }
 
-.title {
+.tab-title {
   flex: 2.5;
   margin: 5px;
   padding: 10px;
@@ -16,11 +16,11 @@
   text-decoration: none;
 }
 
-.title:hover {
+.tab-title:hover {
   background-color: dimgray;
 }
 
-.title-text {
+.tab-title-text {
   font-family: 'Tektur', cursive;
   font-size: 1.7em;
   color: lightgray;

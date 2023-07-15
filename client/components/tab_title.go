@@ -5,20 +5,20 @@ import (
 	"github.com/hexops/vecty/elem"
 )
 
-type CTitle struct {
+type CTabTitle struct {
 	vecty.Core
 }
 
-func (c *CTitle) Render() vecty.ComponentOrHTML {
+func (c *CTabTitle) Render() vecty.ComponentOrHTML {
 	vecty.AddStylesheet("/assets/css/header.css")
 	return elem.Anchor(
 		vecty.Markup(
-			vecty.Class("title"),
+			vecty.Class("tab-title"),
 			vecty.Attribute("href", "/"),
 		),
 		elem.Div(
 			vecty.Markup(
-				vecty.Class("title-text"),
+				vecty.Class("tab-title-text"),
 			),
 			vecty.Text("Megamouse CTF"),
 		),
