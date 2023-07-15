@@ -4,14 +4,21 @@
 - `http://localhost/` 以下がfrontend
 - `http://localhost/api/` 以下がbackend
 ### frontendのみ
+- wasmserveが入っていなければ `go install github.com/hajimehoshi/wasmserve@latest` を実行
 - `/client` に移動して `wasmserve` を実行
 - `http://localhost:8080/` を開く
 ### backendのみ
-- `/server` に移動して `go run .` を実行
+- airが入っていなければ `go install github.com/cosmtrek/air@latest` を実行
+- `/server` に移動して `air` を実行
 - `http://localhost:8081/` を開く
+### dbのマイグレーション
+- `/server/main.go`内で`db.Migrate()`を1回実行すればマイグレーション&初期化が完了
 
 ## エラー・ログについて
-3段階のフォーマットを使用
+### frontend
+- `github.com/claustra01/hackz_megamouse/client/utils/js` をimportする
+- `js.ConsoleLog("log message...")` でブラウザのdevtoolにログを出力できる
+### backend
 - `log.Fatal("[ERROR] ", err)` アプリを止めるべき致命的なエラー (例: .envファイルが見つからない)
 - `log.Print("[ERROR] ", err)` アプリを止める必要のないレベルのエラー (例: レスポンスが返ってこない)
 - `log.Print("[INFO] log message...")` エラーではない通常のログ

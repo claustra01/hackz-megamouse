@@ -1,23 +1,20 @@
 package main
 
 import (
-	"log"
-
-	"github.com/claustra01/hackz_megamouse/server/handler"
+	"github.com/claustra01/hackz-megamouse/server/db"
+	"github.com/claustra01/hackz-megamouse/server/handler"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
 
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatal("[ERROR] ", err)
-	}
+	godotenv.Load(".env")
+	db.Connect()
 
 	e := echo.New()
-
-	e.GET("/api/sample/", handler.Sample)
+	e.POST("/users", handler.SignUP)
+	e.GET("/sample", handler.Sample)
 
 	e.Logger.Fatal(e.Start(":8081"))
 }
