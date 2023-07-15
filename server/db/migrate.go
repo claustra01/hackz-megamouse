@@ -3,6 +3,8 @@ package db
 import (
 	"log"
 	"os"
+
+	"github.com/claustra01/hackz-megamouse/server/util"
 )
 
 func Migrate() {
@@ -18,10 +20,14 @@ func Migrate() {
 	DB.AutoMigrate(&Solves{})
 
 	// create admin user
+	hashedPassword, err := util.HashPassword(os.Getenv("ADMIN_PASSWORD"))
+	if err != nil {
+		log.Fatal("[Error] Migration failed")
+	}
 	admin := User{
 		Username: "admin",
 		Email:    "admin@megamouse.ctf",
-		Password: os.Getenv("ADMIN_PASSWORD"),
+		Password: hashedPassword,
 		IsAdmin:  true,
 	}
 	DB.Create(&admin)

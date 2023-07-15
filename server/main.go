@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"os"
 
 	"github.com/claustra01/hackz-megamouse/server/db"
 	"github.com/claustra01/hackz-megamouse/server/handler"
@@ -20,13 +21,13 @@ func main() {
 
 	// echo.middleware JWTConfigの設定
 	config := middleware.JWTConfig{
-		SigningKey: []byte("SECRET_KEY"),
+		SigningKey: []byte(os.Getenv("JWT_SECRET_KEY")),
 		ParseTokenFunc: func(tokenString string, c echo.Context) (interface{}, error) {
 			keyFunc := func(token *jwt.Token) (interface{}, error) {
 				if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 					return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 				}
-				return []byte("SECRET_KEY"), nil
+				return []byte(os.Getenv("JWT_SECRET_KEY")), nil
 			}
 
 			token, err := jwt.Parse(tokenString, keyFunc)
