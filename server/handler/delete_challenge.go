@@ -40,7 +40,21 @@ func DeleteChallenge(c echo.Context) error {
 		}
 
 	} else {
-		// delete user, return 200
+		// cleanup submissions and solves
+		if err := db.DB.Where("challenge_id = ?", id).Delete(&db.Submission{}).Error; err != nil {
+			// return 500
+			return c.JSON(http.StatusInternalServerError, echo.Map{
+				"message": "Database Error: " + err.Error(),
+			})
+		}
+		if err := db.DB.Where("challenge_id = ?", id).Delete(&db.Solves{}).Error; err != nil {
+			// return 500
+			return c.JSON(http.StatusInternalServerError, echo.Map{
+				"message": "Database Error: " + err.Error(),
+			})
+		}
+
+		// delete challenge, return 200
 		db.DB.Delete(&db.Challenge{}, id)
 		return c.JSON(http.StatusOK, echo.Map{
 			"message": "Deletion Successful",
