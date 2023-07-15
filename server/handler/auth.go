@@ -26,15 +26,6 @@ func Auth(c echo.Context) error {
 			"message": "Database Error: " + err.Error(),
 		})
 	} else {
-		return c.JSON(http.StatusOK, echo.Map{
-			"id": authorizedUser.Id,
-			"username": authorizedUser.Username,
-			"profile": authorizedUser.Profile,
-			"email": authorizedUser.Email,
-			"password": authorizedUser.Password,
-			"isadmin": authorizedUser.IsAdmin,
-			"createdat": authorizedUser.CreatedAt,
-			"updateat": authorizedUser.UpdatedAt,
-		})
+		return c.JSON(http.StatusOK, authorizedUser)
 	}
 }
