@@ -11,10 +11,16 @@ type CTitle struct {
 
 func (c *CTitle) Render() vecty.ComponentOrHTML {
 	vecty.AddStylesheet("/assets/css/header.css")
-	return elem.Div(
+	return elem.Anchor(
 		vecty.Markup(
 			vecty.Class("title"),
+			vecty.Attribute("href", "/"),
 		),
-		vecty.Text("Title"),
+		elem.Div(
+			vecty.Markup(
+				vecty.Class("title-text"),
+			),
+			vecty.Text("Megamouse CTF"),
+		),
 	)
 }

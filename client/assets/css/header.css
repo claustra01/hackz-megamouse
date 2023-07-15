@@ -1,18 +1,43 @@
 .header {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: lightgrey;
+  text-align: center;
+  height: auto;
+  width: 100%;
+  background-color: dimgray;
 }
 
 .title {
-  flex: 1;
-  padding: 10px;
-  text-align: center;
+  flex: 2;
+  padding: 15px;
+  text-decoration: none;
+}
+
+.title:hover {
+  background-color: gray;
+}
+
+.title-text {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 1.4em;
+  color: lightgray;
 }
 
 .tab {
   flex: 1;
-  padding: 10px;
-  text-align: center;
+  padding: 20px;
+  text-decoration: none;
+}
+
+.tab:hover {
+  background-color: gray;
+}
+
+.tab-text {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 1em;
+  color: lightgray;
+}
+
+.tab-blank {
+  flex: 5;
 }

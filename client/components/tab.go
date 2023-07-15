@@ -3,7 +3,6 @@ package components
 import (
 	"github.com/hexops/vecty"
 	"github.com/hexops/vecty/elem"
-	"github.com/hexops/vecty/prop"
 )
 
 type CTab struct {
@@ -18,13 +17,14 @@ type CTabProps struct {
 
 func (c *CTab) Render() vecty.ComponentOrHTML {
 	vecty.AddStylesheet("/assets/css/header.css")
-	return elem.Div(
+	return elem.Anchor(
 		vecty.Markup(
 			vecty.Class("tab"),
+			vecty.Attribute("href", c.Props.Path),
 		),
-		elem.Anchor(
+		elem.Div(
 			vecty.Markup(
-				prop.Href(c.Props.Path),
+				vecty.Class("tab-text"),
 			),
 			vecty.Text(c.Props.Text),
 		),

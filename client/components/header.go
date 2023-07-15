@@ -18,32 +18,27 @@ func (c *CHeader) Render() vecty.ComponentOrHTML {
 		&CTitle{},
 		&CTab{
 			Props: CTabProps{
-				Text: "example",
-				Path: "/example",
+				Text: "ScoreBoard",
+				Path: "/scoreboard",
 			},
 		},
 		&CTab{
 			Props: CTabProps{
-				Text: "example",
-				Path: "/example",
+				Text: "Challenges",
+				Path: "/challenges",
+			},
+		},
+		&CTabBlank{},
+		&CTab{
+			Props: CTabProps{
+				Text: "Profile",
+				Path: "/profile",
 			},
 		},
 		&CTab{
 			Props: CTabProps{
-				Text: "example",
-				Path: "/example",
-			},
-		},
-		&CTab{
-			Props: CTabProps{
-				Text: "example",
-				Path: "/example",
-			},
-		},
-		&CTab{
-			Props: CTabProps{
-				Text: "example",
-				Path: "/example",
+				Text: "Login",
+				Path: "/login",
 			},
 		},
 	)
