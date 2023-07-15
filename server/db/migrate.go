@@ -1,6 +1,9 @@
 package db
 
-import "log"
+import (
+	"log"
+	"os"
+)
 
 func Migrate() {
 
@@ -13,6 +16,15 @@ func Migrate() {
 	DB.AutoMigrate(&Challenge{})
 	DB.AutoMigrate(&Submission{})
 	DB.AutoMigrate(&Solves{})
+
+	// create admin user
+	admin := User{
+		Username: "admin",
+		Email:    "admin@megamouse.ctf",
+		Password: os.Getenv("ADMIN_PASSWORD"),
+		IsAdmin:  true,
+	}
+	DB.Create(&admin)
 
 	log.Print("[INFO] DB Migrated!")
 }
