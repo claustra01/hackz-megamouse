@@ -1,13 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"errors"
+	"fmt"
 
 	"github.com/claustra01/hackz-megamouse/server/db"
 	"github.com/claustra01/hackz-megamouse/server/handler"
-	"github.com/joho/godotenv"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -15,15 +15,8 @@ import (
 func main() {
 
 	godotenv.Load(".env")
-	db.Connect()
-
 	e := echo.New()
-	e.POST("/login", handler.Login)
-	e.POST("/users", handler.SignUP)
-	e.GET("/sample", handler.Sample)
-
-	// user group
-	r := e.Group("/user")
+	db.Connect()
 
 	// echo.middleware JWTConfigの設定
 	config := middleware.JWTConfig{
@@ -46,8 +39,34 @@ func main() {
 			return token, nil
 		},
 	}
+
+	e.POST("/users", handler.NewUser)
+	// e.GET("/users/:id", handler.GetUser)
+	// e.PUT("/users/:id", handler.UpdateUser)
+	// e.DELETE("/users/:id", handler.DeleteUser)
+	// e.GET("/users", handler.GetUserList)
+
+	e.POST("/login", handler.Login)
+
+	// user group
+	r := e.Group("/auth")
 	r.Use(middleware.JWTWithConfig(config))
+
 	r.GET("", handler.Auth)
+
+	// r.POST("/challenges", handler.NewChallenge)
+	// r.GET("/challenges/:id", handler.GetChallenge)
+	// r.PUT("/challenges/:id", handler.UpdateChallenge)
+	// r.DELETE("/challenges/:id", handler.DeleteChallenge)
+	// r.GET("/challenges", handler.GetChallengeList)
+
+	// r.POST("/submissions", handler.NewSubmission)
+	// r.GET("/submissions/:id", handler.GetSubmission)
+	// r.GET("/users/submissions/:id", handler.GetSubmissionList)
+
+	// r.POST("/solves", handler.NewSolve)
+	// r.GET("/solves/:id", handler.GetSolve)
+	// r.GET("/users/solves/:id", handler.GetSolveList)
 
 	e.Logger.Fatal(e.Start(":8081"))
 }
