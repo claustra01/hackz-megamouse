@@ -36,5 +36,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./server
+          build-args: |
+            "DB_CONNECT_STRINGS = ${{ secrets.DB_CONNECT_STRINGS }}"
           push: true
           tags: ${{ secrets.ACR_ENDPOINT }}/server:latest
