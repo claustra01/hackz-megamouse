@@ -63,9 +63,9 @@ func main() {
 	r.DELETE("/challenges/:id", handler.DeleteChallenge)
 	r.GET("/challenges", handler.GetChallengeList)
 
-	// r.POST("/submissions", handler.NewSubmission)
-	// r.GET("/submissions/:id", handler.GetSubmission)
-	// r.GET("/users/submissions/:id", handler.GetSubmissionList)
+	r.POST("/submissions", handler.NewSubmission)
+	r.GET("/submissions/:id", handler.GetSubmission)
+	r.GET("/users/submissions", handler.GetSubmissionList)
 
 	// r.POST("/solves", handler.NewSolve)
 	// r.GET("/solves/:id", handler.GetSolve)
