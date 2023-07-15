@@ -52,7 +52,7 @@ func main() {
 
 	r.GET("", handler.Auth)
 
-	// r.PUT("/users", handler.UpdateUser)
+	r.PUT("/users", handler.UpdateUser)
 	// r.DELETE("/users", handler.DeleteUser)
 
 	// r.POST("/challenges", handler.NewChallenge)
