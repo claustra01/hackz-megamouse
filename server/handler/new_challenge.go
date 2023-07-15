@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/claustra01/hackz-megamouse/server/db"
+	"github.com/claustra01/hackz-megamouse/server/util"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
@@ -37,6 +38,14 @@ func NewChallenge(c echo.Context) error {
 		// return 400
 		return c.JSON(http.StatusBadRequest, echo.Map{
 			"message": "Json Format Error: " + err.Error(),
+		})
+	}
+
+	// check field
+	if util.HasEmptyField(obj, "Username", "Title", "Category") {
+		// return 400
+		return c.JSON(http.StatusBadRequest, echo.Map{
+			"message": "Missing Required Field",
 		})
 	}
 
