@@ -41,7 +41,7 @@ func main() {
 	}
 
 	e.POST("/users", handler.NewUser)
-	// e.GET("/users/:id", handler.GetUser)
+	e.GET("/users/:id", handler.GetUser)
 	// e.PUT("/users/:id", handler.UpdateUser)
 	// e.DELETE("/users/:id", handler.DeleteUser)
 	// e.GET("/users", handler.GetUserList)
