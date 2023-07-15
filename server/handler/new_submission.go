@@ -6,11 +6,11 @@ import (
 	"github.com/claustra01/hackz-megamouse/server/db"
 	"github.com/claustra01/hackz-megamouse/server/util"
 	"github.com/labstack/echo/v4"
+	"github.com/dgrijalva/jwt-go"
 	"gorm.io/gorm"
 )
 func NewSubmission(c echo.Context) error {
 	type Body struct {
-		UserId uint `json:"user_id"`
 		ChallengeId uint `json:"challenge_id"`
 		Body string `json:"body"`
 	}
@@ -22,7 +22,7 @@ func NewSubmission(c echo.Context) error {
 		})
 	}
 
-	if util.HasEmptyField(obj, "UserId", "ChallengeId", "Body") {
+	if util.HasEmptyField(obj, "Body") {
 		return c.JSON(http.StatusBadRequest, echo.Map{
 			"message": "Missing Required Field",
 		})
@@ -33,8 +33,11 @@ func NewSubmission(c echo.Context) error {
 	// あっていなければisCollectをfalseにしてsubmissionをcreate
 	var user db.User
 	var challenge db.Challenge
+	u := c.Get("user").(*jwt.Token)
+	claims := u.Claims.(jwt.MapClaims)
+	userid := claims["id"].(float64)
 
-	if err := db.DB.Where("id = ?", obj.UserId).First(&user).Error; err != nil {
+	if err := db.DB.Where("id = ?", userid).First(&user).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return c.JSON(http.StatusNotFound, echo.Map{
 				"message": "User Not Found",
@@ -90,8 +93,8 @@ func NewSubmission(c echo.Context) error {
 			}else{
 				// 処理
 				submission := db.Submission{
-					UserId: obj.UserId,
-					ChallengeId: obj.ChallengeId,
+					UserId: user.Id,
+					ChallengeId: challenge.Id,
 					Body: obj.Body,
 					IsCollect: false,
 				}
