@@ -6,6 +6,7 @@ import (
 
 	"github.com/claustra01/hackz-megamouse/server/db"
 	"github.com/labstack/echo/v4"
+	"github.com/dgrijalva/jwt-go"
 )
 
 type SolveRes struct {
@@ -31,9 +32,11 @@ func ommit_sv(solves []db.Solves) []SolveRes {
 	return list
 }
 func GetSolveList(c echo.Context) error {
-	id := c.Param("id")
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	userid := claims["id"].(float64)
 	var solves []db.Solves
-		if err := db.DB.Where("user_id = ?", id).Find(&solves).Error; err != nil {
+		if err := db.DB.Where("user_id = ?", userid).Find(&solves).Error; err != nil {
 			return c.JSON(http.StatusInternalServerError, echo.Map{
 				"message": "Failed to fetch submissions",
 			})
