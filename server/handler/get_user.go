@@ -33,8 +33,10 @@ func GetUser(c echo.Context) error {
 			"username":   user.Username,
 			"profile":    user.Profile,
 			"email":      user.Email,
+			"score":      user.Score,
 			"is_admin":   user.IsAdmin,
 			"created_at": user.CreatedAt,
+			"updated_at": user.UpdatedAt,
 		})
 	}
 }

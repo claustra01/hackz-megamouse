@@ -50,8 +50,10 @@ func NewUser(c echo.Context) error {
 				"username":   new.Username,
 				"profile":    new.Profile,
 				"email":      new.Email,
+				"score":      new.Score,
 				"is_admin":   new.IsAdmin,
-				"created_at": new.CreatedAt,
+				"created_at": user.CreatedAt,
+				"updated_at": user.UpdatedAt,
 			})
 
 		} else {
