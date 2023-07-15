@@ -38,5 +38,6 @@ jobs:
           context: ./server
           build-args: |
             "DB_CONNECT_STRINGS = ${{ secrets.DB_CONNECT_STRINGS }}"
+            "ADMIN_PASSWORD = ${{ secrets.ADMIN_PASSWORD }}"
           push: true
           tags: ${{ secrets.ACR_ENDPOINT }}/server:latest

@@ -31,17 +31,25 @@ func DeleteChallenge(c echo.Context) error {
 			var challenge db.Challenge
 			id := c.Param("id")
 			if err := db.DB.Where("id = ?", id).First(&challenge).Error; err != nil {
-				return c.String(http.StatusNotFound, "Challenge not found")
+				return c.JSON(http.StatusNotFound, echo.Map{
+					"message": "Challenge not found",
+				})
 			}else{
 				//削除処理
 				if err := db.DB.Delete(&db.Challenge{}, id).Error; err != nil {
-					return c.String(http.StatusInternalServerError, "Failed to delete challenge")
+					return c.JSON(http.StatusInternalServerError, echo.Map{
+						"message": "Failed to delete challenge",
+					})
 				}else{
-					return c.JSON(http.StatusOK, "Challenge deleted successfully")
+					return c.JSON(http.StatusOK, echo.Map{
+						"message": "Challenge deleted successfully",
+					})
 				}
 			}
 		}else{
-			return c.JSON(http.StatusNotFound,"admin only")
+			return c.JSON(http.StatusForbidden, echo.Map{
+				"message": "admin only",
+			})
 		}
 	}
 }
