@@ -19,6 +19,6 @@ func (p *page) Render() vecty.ComponentOrHTML {
 }
 
 func main() {
-	vecty.SetTitle("べくてぃー！！")
+	vecty.SetTitle("Megamouse CTF")
 	vecty.RenderBody(new(page))
 }

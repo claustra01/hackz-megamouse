@@ -15,7 +15,7 @@ func (c *CHeader) Render() vecty.ComponentOrHTML {
 		vecty.Markup(
 			vecty.Class("header"),
 		),
-		&CTitle{},
+		&CTabTitle{},
 		&CTab{
 			Props: CTabProps{
 				Text: "ScoreBoard",
