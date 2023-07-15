@@ -23,6 +23,14 @@ func GetSubmission(c echo.Context) error {
 			})
 		}
 	}else{
-		return c.JSON(http.StatusOK, submission)
+		res := SubmissionRes{
+			Id: submission.Id,
+			UserId: submission.UserId,
+			ChallengeId: submission.ChallengeId,
+			Body: submission.Body,
+			IsCollect: submission.IsCollect,
+			CreatedAt: submission.CreatedAt,
+		}
+		return c.JSON(http.StatusOK, res)
 	}
 }
