@@ -40,7 +40,7 @@ func UpdateChallenge(c echo.Context) error {
 				if err := db.DB.Save(&challenge).Error; err != nil {
 					return c.JSON(http.StatusInternalServerError, "Failed to update challenge")
 				}
-				return c.JSON(http.StatusOK, challenge)
+				return c.JSON(http.StatusOK, "Challenge updated successfully")
 			}
 		}else{
 			return c.JSON(http.StatusNotFound, "admin only")

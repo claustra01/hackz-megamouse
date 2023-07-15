@@ -63,7 +63,7 @@ func NewChallenge(c echo.Context) error {
 		
 			db.DB.Create(&new)
 			return c.JSON(http.StatusOK, echo.Map{
-				"message": "create success",
+				"message": "Challenge created successfully",
 			})
 		}else{
 			return c.JSON(http.StatusNotFound, "admin only")
