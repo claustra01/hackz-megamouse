@@ -42,9 +42,7 @@ func main() {
 
 	e.POST("/users", handler.NewUser)
 	e.GET("/users/:id", handler.GetUser)
-	// e.PUT("/users/:id", handler.UpdateUser)
-	// e.DELETE("/users/:id", handler.DeleteUser)
-	// e.GET("/users", handler.GetUserList)
+	e.GET("/users", handler.GetUserList)
 
 	e.POST("/login", handler.Login)
 
@@ -53,6 +51,9 @@ func main() {
 	r.Use(middleware.JWTWithConfig(config))
 
 	r.GET("", handler.Auth)
+
+	// r.PUT("/users", handler.UpdateUser)
+	// r.DELETE("/users", handler.DeleteUser)
 
 	// r.POST("/challenges", handler.NewChallenge)
 	// r.GET("/challenges/:id", handler.GetChallenge)
