@@ -16,6 +16,7 @@ WORKDIR /etc/nginx/html
 COPY --from=build /build/index.html .
 COPY --from=build /build/main.wasm .
 COPY --from=build /build/wasm_exec.js .
+COPY --from=build /build/assets ./assets
 
 EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]

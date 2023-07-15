@@ -14,6 +14,7 @@ type PIndex struct {
 
 func (p *PIndex) Render() vecty.ComponentOrHTML {
 	return elem.Body(
+		elem.Div(&components.CHeader{}),
 		elem.Heading1(vecty.Text("Hello Vecty!!")),
 		elem.Div(&components.CButton{}),
 		elem.Div(&components.CButton{}),
