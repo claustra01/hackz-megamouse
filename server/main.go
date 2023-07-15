@@ -55,11 +55,11 @@ func main() {
 	r.PUT("/users", handler.UpdateUser)
 	r.DELETE("/users", handler.DeleteUser)
 
-	// r.POST("/challenges", handler.NewChallenge)
-	// r.GET("/challenges/:id", handler.GetChallenge)
-	// r.PUT("/challenges/:id", handler.UpdateChallenge)
-	// r.DELETE("/challenges/:id", handler.DeleteChallenge)
-	// r.GET("/challenges", handler.GetChallengeList)
+	r.POST("/challenges", handler.NewChallenge)
+	r.GET("/challenges/:id", handler.GetChallenge)
+	r.PUT("/challenges/:id", handler.UpdateChallenge)
+	r.DELETE("/challenges/:id", handler.DeleteChallenge)
+	r.GET("/challenges", handler.GetChallengeList)
 
 	// r.POST("/submissions", handler.NewSubmission)
 	// r.GET("/submissions/:id", handler.GetSubmission)
