@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func SignUP(c echo.Context) error {
+func NewUser(c echo.Context) error {
 
 	type Body struct {
 		Username string `json:"username"`
