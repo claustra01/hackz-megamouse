@@ -55,6 +55,7 @@ func main() {
 
 	r.PUT("/users", handler.UpdateUser)
 	r.DELETE("/users", handler.DeleteUser)
+	r.PUT("/users/admin/:id", handler.RoleAdmin)
 
 	r.POST("/challenges", handler.NewChallenge)
 	r.GET("/challenges/:id", handler.GetChallenge)
