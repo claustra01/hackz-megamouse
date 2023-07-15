@@ -38,7 +38,7 @@ func GetSolveList(c echo.Context) error {
 	var solves []db.Solves
 		if err := db.DB.Where("user_id = ?", userid).Find(&solves).Error; err != nil {
 			return c.JSON(http.StatusInternalServerError, echo.Map{
-				"message": "Failed to fetch submissions",
+				"message": "Failed to fetch solves",
 			})
 		}else{
 			res := ommit_sv(solves)
