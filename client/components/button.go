@@ -3,7 +3,7 @@ package components
 import (
 	"fmt"
 
-	"github.com/claustra01/hackz_megamouse/client/utils/js"
+	"github.com/claustra01/hackz-megamouse/client/utils/js"
 	"github.com/hexops/vecty"
 	"github.com/hexops/vecty/elem"
 	"github.com/hexops/vecty/event"

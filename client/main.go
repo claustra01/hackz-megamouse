@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/claustra01/hackz_megamouse/client/pages"
+	"github.com/claustra01/hackz-megamouse/client/pages"
 	"github.com/hexops/vecty"
 	"github.com/hexops/vecty/elem"
 	router "marwan.io/vecty-router"
