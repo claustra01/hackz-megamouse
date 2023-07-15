@@ -1,30 +1,36 @@
 .header {
   display: flex;
+  align-items: center;
   text-align: center;
   height: auto;
   width: 100%;
-  background-color: dimgray;
+  border-radius: 10px;
+  background-color: black;
 }
 
 .title {
-  flex: 2;
-  padding: 15px;
+  flex: 2.5;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 10px;
   text-decoration: none;
 }
 
 .title:hover {
-  background-color: gray;
+  background-color: dimgray;
 }
 
 .title-text {
-  font-family: 'Ubuntu', sans-serif;
-  font-size: 1.4em;
+  font-family: 'Tektur', cursive;
+  font-size: 1.7em;
   color: lightgray;
 }
 
 .tab {
   flex: 1;
-  padding: 20px;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 10px;
   text-decoration: none;
 }
 
@@ -33,7 +39,7 @@
 }
 
 .tab-text {
-  font-family: 'Ubuntu', sans-serif;
+  font-family: 'Tektur', cursive;
   font-size: 1em;
   color: lightgray;
 }
