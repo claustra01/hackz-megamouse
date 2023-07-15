@@ -3,6 +3,7 @@ package components
 import (
 	"github.com/hexops/vecty"
 	"github.com/hexops/vecty/elem"
+	"github.com/hexops/vecty/event"
 )
 
 type CTitleButton struct {
@@ -11,7 +12,8 @@ type CTitleButton struct {
 }
 
 type CTitleButtonProps struct {
-	Text string
+	Text  string
+	Event func(e *vecty.Event)
 }
 
 func (c *CTitleButton) Render() vecty.ComponentOrHTML {
@@ -19,6 +21,7 @@ func (c *CTitleButton) Render() vecty.ComponentOrHTML {
 	return elem.Button(
 		vecty.Markup(
 			vecty.Class("title-button"),
+			event.Click(c.Props.Event),
 		),
 		vecty.Text(c.Props.Text),
 	)
