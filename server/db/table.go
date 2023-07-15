@@ -28,6 +28,11 @@ type Challenge struct {
 	UpdatedAt      time.Time `gorm:"default:current_timestamp"`
 }
 
+type Category struct {
+	Name      string    `gorm:"primaryKey"`
+	CreatedAt time.Time `gorm:"default:current_timestamp"`
+}
+
 type Submission struct {
 	Id          uint      `gorm:"primaryKey"`
 	UserId      uint      `gorm:"not null"`

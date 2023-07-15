@@ -38,6 +38,20 @@ func DeleteUser(c echo.Context) error {
 		})
 
 	} else {
+		// cleanup submissions and solves
+		if err := db.DB.Where("user_id = ?", id).Delete(&db.Submission{}).Error; err != nil {
+			// return 500
+			return c.JSON(http.StatusInternalServerError, echo.Map{
+				"message": "Database Error: " + err.Error(),
+			})
+		}
+		if err := db.DB.Where("user_id = ?", id).Delete(&db.Solves{}).Error; err != nil {
+			// return 500
+			return c.JSON(http.StatusInternalServerError, echo.Map{
+				"message": "Database Error: " + err.Error(),
+			})
+		}
+
 		// delete user, return 200
 		db.DB.Delete(&db.User{}, id)
 		return c.JSON(http.StatusOK, echo.Map{
