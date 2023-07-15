@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func SignUP(c echo.Context) error {
+func NewUser(c echo.Context) error {
 
 	type Body struct {
 		Username string `json:"username"`
@@ -38,14 +38,23 @@ func SignUP(c echo.Context) error {
 	if err := db.DB.Where("email = ?", obj.Email).First(&user).Error; err != nil {
 
 		if err == gorm.ErrRecordNotFound {
-			// create new user
+			// create new user, return 201
 			new := db.User{
 				Username: obj.Username,
 				Email:    obj.Email,
 				Password: obj.Password,
 			}
 			db.DB.Create(&new)
-			return c.JSON(http.StatusCreated, new)
+			return c.JSON(http.StatusCreated, echo.Map{
+				"id":         new.Id,
+				"username":   new.Username,
+				"profile":    new.Profile,
+				"email":      new.Email,
+				"score":      new.Score,
+				"is_admin":   new.IsAdmin,
+				"created_at": user.CreatedAt,
+				"updated_at": user.UpdatedAt,
+			})
 
 		} else {
 			// return 500
