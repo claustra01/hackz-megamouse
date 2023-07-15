@@ -13,6 +13,7 @@ func main() {
 	db.Connect()
 
 	e := echo.New()
+	e.POST("/users", handler.SignUP)
 	e.GET("/sample", handler.Sample)
 
 	e.Logger.Fatal(e.Start(":8081"))

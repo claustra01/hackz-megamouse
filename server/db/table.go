@@ -6,7 +6,7 @@ type User struct {
 	Id        uint   `gorm:"primaryKey"`
 	Username  string `gorm:"not null"`
 	Profile   string
-	Email     string    `gorm:"not null"`
+	Email     string    `gorm:"not null;unique"`
 	Password  string    `gorm:"not null"`
 	IsAdmin   bool      `gorm:"default:false"`
 	CreatedAt time.Time `gorm:"default:current_timestamp"`
