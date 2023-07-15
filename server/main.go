@@ -68,7 +68,7 @@ func main() {
 	r.GET("/users/submissions", handler.GetSubmissionList)
 
 	// r.POST("/solves", handler.NewSolve)
-	r.GET("/solves/:id", handler.GetSolve)
+	// r.GET("/solves/:id", handler.GetSolve)
 	r.GET("/users/solves", handler.GetSolveList)
 
 	e.Logger.Fatal(e.Start(":8081"))
