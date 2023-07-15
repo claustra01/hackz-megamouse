@@ -66,7 +66,9 @@ func NewChallenge(c echo.Context) error {
 				"message": "Challenge created successfully",
 			})
 		}else{
-			return c.JSON(http.StatusNotFound, "admin only")
+			return c.JSON(http.StatusNotFound, echo.Map{
+				"message": "admin only",
+			})
 		}
 	}
 }

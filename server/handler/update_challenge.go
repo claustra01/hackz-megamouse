@@ -31,19 +31,29 @@ func UpdateChallenge(c echo.Context) error {
 			var challenge db.Challenge
 			id := c.Param("id")
 			if err := db.DB.Where("id = ?", id).First(&challenge).Error; err != nil {
-				return c.JSON(http.StatusNotFound, "Challenge not found")
+				return c.JSON(http.StatusNotFound, echo.Map{
+					"message": "Challenge not found",
+				})
 			}else{
 				// 更新処理
 				if err := c.Bind(&challenge); err != nil {
-					return c.JSON(http.StatusBadRequest, "Failed to parse request body")
+					return c.JSON(http.StatusBadRequest, echo.Map{
+						"message": "Failed to parse request body",
+					})
 				}
 				if err := db.DB.Save(&challenge).Error; err != nil {
-					return c.JSON(http.StatusInternalServerError, "Failed to update challenge")
+					return c.JSON(http.StatusInternalServerError, echo.Map{
+						"message": "Failed to update challenge",
+					})
 				}
-				return c.JSON(http.StatusOK, "Challenge updated successfully")
+				return c.JSON(http.StatusOK, echo.Map{
+					"message": "Challenge updated successfully",
+				})
 			}
 		}else{
-			return c.JSON(http.StatusNotFound, "admin only")
+			return c.JSON(http.StatusForbidden, echo.Map{
+				"message": "admin only",
+			})
 		}
 	}
 }
