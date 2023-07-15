@@ -4,7 +4,6 @@ import (
 	"github.com/claustra01/hackz-megamouse/client/components"
 	"github.com/hexops/vecty"
 	"github.com/hexops/vecty/elem"
-	"github.com/hexops/vecty/prop"
 )
 
 type PIndex struct {
@@ -13,16 +12,24 @@ type PIndex struct {
 }
 
 func (p *PIndex) Render() vecty.ComponentOrHTML {
+	vecty.AddStylesheet("/assets/css/index.css")
 	return elem.Body(
 		elem.Div(&components.CHeader{}),
-		elem.Heading1(vecty.Text("Hello Vecty!!")),
-		elem.Div(&components.CButton{}),
-		elem.Div(&components.CButton{}),
-		elem.Anchor(
+		elem.Div(
 			vecty.Markup(
-				prop.Href("/example"),
+				vecty.Class("index"),
 			),
-			vecty.Text("/exampleへ"),
+			elem.Div(&components.CTitle{}),
+			elem.Div(&components.CTitleButton{
+				Props: components.CTitleButtonProps{
+					Text: "Login",
+				},
+			}),
+			elem.Div(&components.CTitleButton{
+				Props: components.CTitleButtonProps{
+					Text: "Sign Up",
+				},
+			}),
 		),
 	)
 }
