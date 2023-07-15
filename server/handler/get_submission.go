@@ -5,13 +5,23 @@ import (
 
 	"github.com/claustra01/hackz-megamouse/server/db"
 	"github.com/labstack/echo/v4"
+	"gorm.io/gorm"
 )
 func GetSubmission(c echo.Context) error {
 
 	var submission db.Submission
 	id := c.Param("id")
 	if err := db.DB.Where("id = ?", id).First(&submission).Error; err != nil {
-		return c.String(http.StatusNotFound, "Challenge not found")
+		if err == gorm.ErrRecordNotFound {
+			return c.JSON(http.StatusNotFound, echo.Map{
+				"message": "Challenge not found",
+			})
+
+		} else {
+			return c.JSON(http.StatusInternalServerError, echo.Map{
+				"message": "Database Error: " + err.Error(),
+			})
+		}
 	}else{
 		return c.JSON(http.StatusOK, submission)
 	}
