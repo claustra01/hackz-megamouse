@@ -1,7 +1,7 @@
 import React from 'react';
 
 // const Card = (title: string, category: string, description: string, value: number) => {
-const Card = () => {
+const ChallengeCard = () => {
   return (
     <div className="card">
       <div className="card-content">
@@ -18,4 +18,4 @@ const Card = () => {
   );
 };
 
-export default Card;
+export default ChallengeCard;
