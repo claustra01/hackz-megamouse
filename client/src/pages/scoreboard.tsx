@@ -1,5 +1,3 @@
-import Link from 'next/link';
-import Header from '../components/Header';
 import { UserScore } from '../lib/contents';
 import ScoreList from '../components/ScoreList';
 
@@ -11,7 +9,6 @@ const data: UserScore[] = [
 const Scoreboard = () => {
   return (
     <div>
-      <Header />
       <h2>scoreboard</h2>
       <ScoreList scores={data} />
     </div>

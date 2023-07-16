@@ -1,11 +1,7 @@
-import Link from 'next/link';
-import Header from '../components/Header';
 
 const Signup = () => {
   return (
     <div>
-      <Header />
-
       <h2>Signup</h2>
       <form>
         <div>

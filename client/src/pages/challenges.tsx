@@ -1,4 +1,3 @@
-import Header from '../components/Header';
 import ChallengeList from '../components/ChallengeList';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
@@ -37,7 +36,6 @@ const Challenges = () => {
   return (
     <>
       <div>
-        <Header />
         {data.map((item, index) => (
           <div key={index}>
             <p>{categories[index]}</p>
