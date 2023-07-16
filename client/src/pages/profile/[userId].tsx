@@ -1,9 +1,9 @@
+// /pages/profile/[userId].tsx
+
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useAuth } from '@/components/AuthContext';
 import SolveCard from '@/components/SolveCard'; // SolveCardコンポーネントをインポート
-import styled from 'styled-components';
 
 type UserProfile = {
   username: string;
@@ -14,65 +14,11 @@ type UserProfile = {
   created_at: string;
 };
 
-const ProfileContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #f8f8f8;
-`;
-
-const ProfileHeader = styled.h1`
-  font-size: 48px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 20px;
-`;
-
-const ProfileData = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px; /* タイトルとコンテンツの間に余白を追加 */
-`;
-
-const EditProfileButton = styled.button`
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #fff;
-  background-color: #66b2ff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #4682b4;
-  }
-
-  &:focus {
-    outline: none;
-  }
-`;
-
-const SolvesContainer = styled.div`
-  width: 400px; /* 解答一覧の幅を指定 */
-`;
-
-const SolvesTitle = styled.h2`
-  font-size: 32px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 10px;
-`;
-
-const Profile: React.FC = () => {
-  const { userId } = useAuth();
+const UserProfilePage: React.FC = () => {
+  const router = useRouter();
+  const { userId } = router.query; // パスパラメータからuserIdを取得
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [solves, setSolves] = useState<any[]>([]); // Solveデータを保持するstate
-  const router = useRouter();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -90,7 +36,9 @@ const Profile: React.FC = () => {
       }
     };
 
-    fetchUserProfile();
+    if (userId) {
+      fetchUserProfile();
+    }
   }, [userId, router]);
 
   useEffect(() => {
@@ -111,8 +59,10 @@ const Profile: React.FC = () => {
       }
     };
 
-    fetchSolves();
-  }, []);
+    if (userId) {
+      fetchSolves();
+    }
+  }, [userId]);
 
   if (!userProfile) {
     return <div>Loading...</div>;
@@ -120,31 +70,26 @@ const Profile: React.FC = () => {
 
   const createdAtFormatted = new Date(userProfile.created_at).toLocaleString();
 
-  const handleEditProfile = () => {
-    router.push('/profile/edit');
-  };
-
   return (
-    <ProfileContainer>
-      <ProfileHeader>{userProfile.username}'s Profile</ProfileHeader>
-      <ProfileData>
+    <div>
+      <h1>{userProfile.username}'s Profile</h1>
+      <div>
         <p>Email: {userProfile.email}</p>
         <p>Username: {userProfile.username}</p>
         <p>Profile: {userProfile.profile}</p>
         <p>Score: {userProfile.score}</p>
         <p>Is Admin: {userProfile.is_admin ? 'Yes' : 'No'}</p>
         <p>Created At: {createdAtFormatted}</p>
-        <EditProfileButton onClick={handleEditProfile}>Edit Profile</EditProfileButton>
-      </ProfileData>
+      </div>
 
-      <SolvesContainer>
-        <SolvesTitle>Solves List</SolvesTitle>
+      <div>
+        <h2>Solves List</h2>
         {solves.map((solve, index) => (
           <SolveCard key={index} solve={solve} />
         ))}
-      </SolvesContainer>
-    </ProfileContainer>
+      </div>
+    </div>
   );
 };
 
-export default Profile;
+export default UserProfilePage;
