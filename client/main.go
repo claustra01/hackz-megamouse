@@ -14,11 +14,13 @@ type page struct {
 func (p *page) Render() vecty.ComponentOrHTML {
 	return elem.Body(
 		router.NewRoute("/", &pages.PIndex{}, router.NewRouteOpts{ExactMatch: true}),
+		router.NewRoute("/login", &pages.PLogin{}, router.NewRouteOpts{ExactMatch: true}),
+		router.NewRoute("/logout", &pages.PLogout{}, router.NewRouteOpts{ExactMatch: true}),
 		router.NewRoute("/example", &pages.PExample{}, router.NewRouteOpts{ExactMatch: true}),
 	)
 }
 
 func main() {
-	vecty.SetTitle("べくてぃー！！")
+	vecty.SetTitle("Megamouse CTF")
 	vecty.RenderBody(new(page))
 }

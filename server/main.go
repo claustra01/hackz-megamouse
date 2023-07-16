@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"os"
 
 	"github.com/claustra01/hackz-megamouse/server/db"
 	"github.com/claustra01/hackz-megamouse/server/handler"
@@ -20,13 +21,13 @@ func main() {
 
 	// echo.middleware JWTConfigの設定
 	config := middleware.JWTConfig{
-		SigningKey: []byte("SECRET_KEY"),
+		SigningKey: []byte(os.Getenv("JWT_SECRET_KEY")),
 		ParseTokenFunc: func(tokenString string, c echo.Context) (interface{}, error) {
 			keyFunc := func(token *jwt.Token) (interface{}, error) {
 				if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 					return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 				}
-				return []byte("SECRET_KEY"), nil
+				return []byte(os.Getenv("JWT_SECRET_KEY")), nil
 			}
 
 			token, err := jwt.Parse(tokenString, keyFunc)
@@ -54,20 +55,19 @@ func main() {
 
 	r.PUT("/users", handler.UpdateUser)
 	r.DELETE("/users", handler.DeleteUser)
+	r.PUT("/users/admin/:id", handler.RoleAdmin)
 
-	// r.POST("/challenges", handler.NewChallenge)
-	// r.GET("/challenges/:id", handler.GetChallenge)
-	// r.PUT("/challenges/:id", handler.UpdateChallenge)
-	// r.DELETE("/challenges/:id", handler.DeleteChallenge)
-	// r.GET("/challenges", handler.GetChallengeList)
+	r.POST("/challenges", handler.NewChallenge)
+	r.GET("/challenges/:id", handler.GetChallenge)
+	r.PUT("/challenges/:id", handler.UpdateChallenge)
+	r.DELETE("/challenges/:id", handler.DeleteChallenge)
+	r.GET("/challenges", handler.GetChallengeList)
 
-	// r.POST("/submissions", handler.NewSubmission)
-	// r.GET("/submissions/:id", handler.GetSubmission)
-	// r.GET("/users/submissions/:id", handler.GetSubmissionList)
+	r.POST("/submissions", handler.NewSubmission)
+	r.GET("/submissions/:id", handler.GetSubmission)
+	r.GET("/users/submissions", handler.GetSubmissionList)
 
-	// r.POST("/solves", handler.NewSolve)
-	// r.GET("/solves/:id", handler.GetSolve)
-	// r.GET("/users/solves/:id", handler.GetSolveList)
+	r.GET("/users/solves", handler.GetSolveList)
 
 	e.Logger.Fatal(e.Start(":8081"))
 }

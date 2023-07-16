@@ -9,19 +9,27 @@ import (
 	"gorm.io/gorm"
 )
 
-func DeleteUser(c echo.Context) error {
+func DeleteChallenge(c echo.Context) error {
 
-	u := c.Get("user").(*jwt.Token)
-	claims := u.Claims.(jwt.MapClaims)
-	id := claims["id"].(float64)
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	userid := claims["id"].(float64)
 
-	var user db.User
-	if err := db.DB.Where("id = ?", id).First(&user).Error; err != nil {
+	res, msg := db.CheckAdmin(userid)
+	if res != 0 {
+		return c.JSON(res, echo.Map{
+			"message": msg,
+		})
+	}
+
+	id := c.Param("id")
+	var challenge db.Challenge
+	if err := db.DB.Where("id = ?", id).First(&challenge).Error; err != nil {
 
 		if err == gorm.ErrRecordNotFound {
 			// return 404
 			return c.JSON(http.StatusNotFound, echo.Map{
-				"message": "User Not Found",
+				"message": "Challenge Not Found",
 			})
 
 		} else {
@@ -31,29 +39,23 @@ func DeleteUser(c echo.Context) error {
 			})
 		}
 
-	} else if user.IsAdmin == true {
-		// return 403
-		return c.JSON(http.StatusInternalServerError, echo.Map{
-			"message": "cannot delete admin account",
-		})
-
 	} else {
 		// cleanup submissions and solves
-		if err := db.DB.Where("user_id = ?", id).Delete(&db.Submission{}).Error; err != nil {
+		if err := db.DB.Where("challenge_id = ?", id).Delete(&db.Submission{}).Error; err != nil {
 			// return 500
 			return c.JSON(http.StatusInternalServerError, echo.Map{
 				"message": "Database Error: " + err.Error(),
 			})
 		}
-		if err := db.DB.Where("user_id = ?", id).Delete(&db.Solves{}).Error; err != nil {
+		if err := db.DB.Where("challenge_id = ?", id).Delete(&db.Solves{}).Error; err != nil {
 			// return 500
 			return c.JSON(http.StatusInternalServerError, echo.Map{
 				"message": "Database Error: " + err.Error(),
 			})
 		}
 
-		// delete user, return 200
-		db.DB.Delete(&db.User{}, id)
+		// delete challenge, return 200
+		db.DB.Delete(&db.Challenge{}, id)
 		return c.JSON(http.StatusOK, echo.Map{
 			"message": "Deletion Successful",
 		})

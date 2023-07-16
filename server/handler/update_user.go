@@ -41,7 +41,7 @@ func UpdateUser(c echo.Context) error {
 		}
 
 		// check field
-		if util.HasEmptyField(obj, "Username", "Email", "Password", "OldPassword") {
+		if util.HasEmptyField(obj, "Username", "Email", "Password") {
 			// return 400
 			return c.JSON(http.StatusBadRequest, echo.Map{
 				"message": "Missing Required Field",
@@ -63,6 +63,7 @@ func UpdateUser(c echo.Context) error {
 			user.Email = obj.Email
 			user.Password = obj.Password
 			user.UpdatedAt = time.Now()
+			db.DB.Save(&user)
 			return c.JSON(http.StatusOK, echo.Map{
 				"id":         user.Id,
 				"username":   user.Username,

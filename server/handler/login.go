@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/claustra01/hackz-megamouse/server/db"
@@ -50,7 +51,13 @@ func Login(c echo.Context) error {
 		}
 
 	} else {
-		if user.Email == obj.Email && user.Password == obj.Password {
+		if err := util.ComparePasswords(user.Password, obj.Password); err != nil {
+			// return 401
+			return c.JSON(http.StatusUnauthorized, echo.Map{
+				"message": "Unauthorized",
+			})
+
+		} else {
 			// ペイロード作成
 			claims := jwt.MapClaims{
 				"id":  user.Id,
@@ -59,7 +66,7 @@ func Login(c echo.Context) error {
 			// トークン生成
 			token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 			// トークンに署名を付与
-			tokenString, err := token.SignedString([]byte("SECRET_KEY"))
+			tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET_KEY")))
 			if err != nil {
 				return err
 			}
@@ -68,11 +75,6 @@ func Login(c echo.Context) error {
 				"token": tokenString,
 			})
 
-		} else {
-			// return 401
-			return c.JSON(http.StatusUnauthorized, echo.Map{
-				"message": "Unauthorized",
-			})
 		}
 	}
 }
