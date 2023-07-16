@@ -2,6 +2,7 @@ package pages
 
 import (
 	"github.com/claustra01/hackz-megamouse/client/components"
+	"github.com/claustra01/hackz-megamouse/client/utils/auth"
 	"github.com/hexops/vecty"
 	"github.com/hexops/vecty/elem"
 	router "marwan.io/vecty-router"
@@ -9,7 +10,15 @@ import (
 
 type PIndex struct {
 	vecty.Core
-	count int
+	isLoggedIn bool
+	isAdmin    bool
+	userId     int
+}
+
+func (p *PIndex) Mount() {
+
+	p.isLoggedIn, p.isAdmin, p.userId = auth.TokenAuth()
+	vecty.Rerender(p)
 }
 
 func (p *PIndex) Render() vecty.ComponentOrHTML {
