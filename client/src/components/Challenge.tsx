@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import Modal from './Modal';
 import Panel from './Panel';
-import Link from 'next/link';
 import { useAuth } from './AuthContext';
+import { useRouter } from 'next/router';
 
 
 const ChallengeCard = (data: any) => {
   const { isAdmin } = useAuth();
+  const router = useRouter();
+  const EditChallenge = () => {
+    router.push({
+      pathname: "/challenges/edit",
+      query: { id: data.data.id }
+    });
+  };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -28,7 +35,7 @@ const ChallengeCard = (data: any) => {
                 <p className="card-description">{data.data.description}</p>
                 <p className="card-value">{data.data.value}</p>
               </div>
-              {isAdmin && <Link href="/challenges/edit">edit</Link>}
+              {isAdmin && <button onClick={EditChallenge}>edit</button>}
             </div>
           </box>
           <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
