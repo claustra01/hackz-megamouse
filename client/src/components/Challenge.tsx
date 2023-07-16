@@ -1,18 +1,17 @@
+import { Challenge } from '../lib/contents';
 import React from 'react';
 
-// const Card = (title: string, category: string, description: string, value: number) => {
-const ChallengeCard = () => {
+interface ChallengeProps {
+  data: Challenge
+}
+
+const ChallengeCard = ({ data }: ChallengeProps) => {
   return (
     <div className="card">
       <div className="card-content">
-        {/* <h2 className="card-title">{title}</h2>
-        <p className="card-category">{category}</p>
-        <p className="card-description">{description}</p>
-        <p className="card-value">{value}</p> */}
-        <h2 className="card-title">title</h2>
-        <p className="card-category">category</p>
-        <p className="card-description">description</p>
-        <p className="card-value">value</p>
+        <h2 className="card-title">{data.title}</h2>
+        <p className="card-description">{data.description}</p>
+        <p className="card-value">{data.value}</p>
       </div>
     </div>
   );

@@ -1,15 +1,16 @@
 import React from 'react';
 import ChallengeCard from './Challenge';
+import { Challenge } from '../lib/contents';
 
-const Challengelist = () => {
+interface datalist {
+  datalist: Challenge[]
+}
+
+const Challengelist = ({ datalist }: datalist) => {
   return (
-    <>
-      <div>
-        <ChallengeCard />
-        <ChallengeCard />
-        <ChallengeCard />
-      </div>
-    </>
+    datalist.map(data => (
+      <ChallengeCard data={data} />
+    ))
   )
 }
 
