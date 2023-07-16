@@ -1,12 +1,23 @@
 import { AuthProvider } from '../components/AuthContext';
-import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
+import { createGlobalStyle } from 'styled-components';
+
+// グローバルスタイルとして定義
+const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+    padding: 0;
+  }
+`;
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <AuthProvider>
-      <Component {...pageProps} />
-    </AuthProvider>
+    <>
+      <GlobalStyle />
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
+    </>
   );
 }
 
