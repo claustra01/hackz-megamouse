@@ -3,8 +3,9 @@ import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useRouter } from 'next/router';
 
-interface LoginResponse {
+interface ApiResponse {
   token?: string;
+  message?: string;
 }
 
 const Login: React.FC = () => {
@@ -25,7 +26,7 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post<LoginResponse>('/api/login', {
+      const response = await axios.post<ApiResponse>('/api/login', {
         email,
         password,
       });
@@ -35,10 +36,18 @@ const Login: React.FC = () => {
         setCookie('token', data.token, { path: '/' });
         router.push('/');
       } else {
-        setResponseMessage(`Login Failed: ${response.statusText}`);
+        if (response.data && response.data.message) {
+          setResponseMessage(`Login Failed: ${response.data.message}`);
+        } else {
+          setResponseMessage(`Login Failed: ${response.statusText}`);
+        }
       }
-    } catch {
-      setResponseMessage('Login Failed');
+    } catch (error: any) {
+      if (error.response && error.response.data && error.response.data.message) {
+        setResponseMessage(`Login Failed: ${error.response.data.message}`);
+      } else {
+        setResponseMessage('Login Failed');
+      }
     }
   };
 
