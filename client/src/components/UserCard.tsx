@@ -1,7 +1,9 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
 
 type Userdata = {
+  id: number;
   username: string;
   profile: string;
   score: number;
@@ -49,8 +51,14 @@ const Score = styled.div`
 `;
 
 const UserCard = ({ user, index }: UserCardProps) => {
+  const router = useRouter();
+
+  const handleUsernameClick = () => {
+    router.push(`/profile/${user.id}`);
+  };
+
   return (
-    <UserCardContainer>
+    <UserCardContainer onClick={handleUsernameClick}>
       <Rank index={index}>{index + 1}</Rank>
       <Username>{user.username}</Username>
       <Profile>{user.profile}</Profile>
