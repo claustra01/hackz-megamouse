@@ -1,19 +1,24 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useCookies } from 'react-cookie';
+import { useAuth } from '@/components/AuthContext';
 
 const Logout: React.FC = () => {
   const router = useRouter();
   const [, , removeCookie] = useCookies(['token']);
+  const { updateAuthStatus } = useAuth();
 
   useEffect(() => {
-    // コンポーネントがマウントされたときに実行される処理
-    // tokenという名前のcookieを削除してトップページにリダイレクトする
     removeCookie('token');
+    updateAuthStatus({
+      isLoggedIn: false,
+      isAdmin: false,
+      userId: 0,
+    });
     router.push('/');
   }, [removeCookie, router]);
 
-  return null; // 何も表示しないため、nullを返す
+  return null
 };
 
 export default Logout;
