@@ -17,7 +17,7 @@ const ChallengeCard = (data: any) => {
   };
   return (
     <>
-      <button onClick={handleOpenModal}>
+      <box onClick={handleOpenModal}>
         <div className="card">
           <div className="card-content">
             <h2 className="card-title">{data.data.title}</h2>
@@ -25,7 +25,7 @@ const ChallengeCard = (data: any) => {
             <p className="card-value">{data.data.value}</p>
           </div>
         </div>
-      </button>
+      </box>
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
         <Panel data={data.data} />
       </Modal>
