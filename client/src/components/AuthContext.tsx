@@ -23,17 +23,16 @@ type AuthProviderProps = {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [authStatus, setAuthStatus] = useState<AuthStatus>(initialAuthStatus);
-  const [cookies] = useCookies(['token']); // トークンのCookieを取得
+  const [cookies] = useCookies(['token']);
 
   useEffect(() => {
-    // ここでCookieからトークンを取得してヘッダーに付与し、/authへのGETリクエストを行う
     const fetchAuthToken = async () => {
       try {
         if (cookies.token) {
           const response = await fetch('/api/auth', {
             method: 'GET',
             headers: {
-              Authorization: `Bearer ${cookies.token}`, // トークンをヘッダーに付与
+              Authorization: `Bearer ${cookies.token}`,
             },
           });
 
@@ -47,8 +46,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             });
           } else {
             setAuthStatus((prevStatus) => ({
-              ...prevStatus,
               isLoggedIn: false,
+              isAdmin: false,
+              userId: 0,
             }));
           }
         }

@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
+import { useAuth } from './AuthContext';
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -38,6 +39,8 @@ const NavLinks = styled.div`
 `;
 
 const Header = () => {
+  const { isLoggedIn } = useAuth(); 
+
   return (
     <HeaderWrapper>
       <Logo>
@@ -45,10 +48,15 @@ const Header = () => {
       </Logo>
       <NavLinks>
         <Link href="/scoreboard">Scoreboard</Link>
-        <Link href="/challenges">Challenges</Link>
-        <Link href="/profile">Profile</Link>
-        <Link href="/login">Login</Link>
-      </NavLinks>
+        {isLoggedIn ? (
+          <>
+            <Link href="/challenges">Challenges</Link>
+            <Link href="/profile">Profile</Link>
+            <Link href="/logout">Logout</Link>
+          </>
+        ) : (
+          <Link href="/login">Login</Link>
+        )}      </NavLinks>
     </HeaderWrapper>
   );
 };
