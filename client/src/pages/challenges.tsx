@@ -2,6 +2,7 @@ import ChallengeList from '../components/ChallengeList';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 
 
@@ -35,7 +36,8 @@ const Challenges = () => {
                 "filepath": "file",
                 "connection_info": "hoge",
                 "value": 0,
-                "is_visible": false,
+                "is_visible": true,
+                // admin切り替え完成するまでtrue
               }
             ]
           ]
@@ -54,6 +56,7 @@ const Challenges = () => {
   return (
     <>
       <div>
+        <Link href="/challenges/new">create</Link>
         {data.map((item, index) => (
           <div key={index}>
             <p>{categories[index]}</p>
