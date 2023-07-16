@@ -1,22 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
+import axios from 'axios';
+import { useCookies } from 'react-cookie';
+import { useRouter } from 'next/router';
 
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+interface LoginResponse {
+  token?: string;
+}
 
-  const handleEmailChange = (e: any) => {
+const Login: React.FC = () => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [responseMessage, setResponseMessage] = useState<string>('');
+  const [cookies, setCookie] = useCookies(['token']);
+  const router = useRouter();
+
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
 
-  const handlePasswordChange = (e: any) => {
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Perform login logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
+    try {
+      const response = await axios.post<LoginResponse>('/api/login', {
+        email,
+        password,
+      });
+
+      if (response.status === 200 && response.data.token) {
+        const data = response.data;
+        setCookie('token', data.token, { path: '/' });
+        router.push('/');
+      } else {
+        setResponseMessage(`Login Failed: ${response.statusText}`);
+      }
+    } catch {
+      setResponseMessage('Login Failed');
+    }
   };
 
   return (
@@ -33,6 +56,7 @@ const Login = () => {
         </div>
         <button type="submit">Login</button>
       </form>
+      <p>{responseMessage}</p>
     </div>
   );
 };
