@@ -92,6 +92,10 @@ const UserProfilePage: React.FC = () => {
       <DataTable>
         <table>
           <tr>
+              <td>Email</td>
+              <td>{userProfile.email}</td>
+          </tr>
+          <tr>
               <td>Username</td>
               <td>{userProfile.username}</td>
           </tr>

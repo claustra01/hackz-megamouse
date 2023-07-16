@@ -96,6 +96,8 @@ export const DataTable = styled.div`
     & th,
     td {
       padding: 10px;
+      padding-left: 20px;
+      padding-right: 30px;
       text-align: left;
       border-bottom: 1px solid #ccc;
     }
