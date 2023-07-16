@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useRouter } from 'next/router';
+import Header from './components/Header';
 
 interface ApiResponse {
   token?: string;
@@ -53,6 +54,7 @@ const Login: React.FC = () => {
 
   return (
     <div>
+      <Header />
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div>
