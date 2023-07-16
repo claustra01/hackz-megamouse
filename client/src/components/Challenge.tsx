@@ -1,11 +1,44 @@
-import React, { useState } from 'react';
-import Modal from './Modal';
-import Panel from './Panel';
+import React from 'react';
+import styled from 'styled-components';
 
+const CardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 20px;
+  background-color: #fff; /* 雰囲気に合った色 */
+  transition: transform 0.2s ease;
+  width: 300px;
+  margin-bottom: 20px;
 
-const ChallengeCard = (data: any) => {
+  &:hover {
+    transform: translateY(-5px);
+  }
 
+  .card-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333; /* 雰囲気に合った色 */
+  }
 
+  .card-description {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 15px;
+  }
+
+  .card-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffac00;
+  }
+`;
+
+const ChallengeCard = ({ data }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -15,19 +48,18 @@ const ChallengeCard = (data: any) => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
   return (
     <>
-      <box onClick={handleOpenModal}>
-        <div className="card">
-          <div className="card-content">
-            <h2 className="card-title">{data.data.title}</h2>
-            <p className="card-description">{data.data.description}</p>
-            <p className="card-value">{data.data.value}</p>
-          </div>
+      <CardContainer onClick={handleOpenModal}>
+        <div className="card-content">
+          <h2 className="card-title">{data.title}</h2>
+          <p className="card-description">{data.description}</p>
+          <p className="card-value">{data.value}</p>
         </div>
-      </box>
+      </CardContainer>
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-        <Panel data={data.data} />
+        <Panel data={data} />
       </Modal>
     </>
   );
