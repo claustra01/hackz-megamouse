@@ -15,7 +15,10 @@ const initialAuthStatus: AuthStatus = {
   userId: 0,
 };
 
-const AuthContext = createContext<AuthStatus>(initialAuthStatus);
+const AuthContext = createContext<AuthStatus & { updateAuthStatus: (newStatus: AuthStatus) => void }>({
+  ...initialAuthStatus,
+  updateAuthStatus: () => {},
+});
 
 type AuthProviderProps = {
   children: ReactNode;
@@ -23,17 +26,16 @@ type AuthProviderProps = {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [authStatus, setAuthStatus] = useState<AuthStatus>(initialAuthStatus);
-  const [cookies] = useCookies(['token']); // トークンのCookieを取得
+  const [cookies] = useCookies(['token']);
 
   useEffect(() => {
-    // ここでCookieからトークンを取得してヘッダーに付与し、/authへのGETリクエストを行う
     const fetchAuthToken = async () => {
       try {
         if (cookies.token) {
           const response = await fetch('/api/auth', {
             method: 'GET',
             headers: {
-              Authorization: `Bearer ${cookies.token}`, // トークンをヘッダーに付与
+              Authorization: `Bearer ${cookies.token}`,
             },
           });
 
@@ -47,8 +49,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             });
           } else {
             setAuthStatus((prevStatus) => ({
-              ...prevStatus,
               isLoggedIn: false,
+              isAdmin: false,
+              userId: 0,
             }));
           }
         }
@@ -60,8 +63,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     fetchAuthToken();
   }, [cookies.token]);
 
+  // Function to update authStatus
+  const updateAuthStatus = (newStatus: AuthStatus) => {
+    setAuthStatus(newStatus);
+  };
+
   return (
-    <AuthContext.Provider value={authStatus}>
+    <AuthContext.Provider value={{ ...authStatus, updateAuthStatus }}>
       {children}
     </AuthContext.Provider>
   );
