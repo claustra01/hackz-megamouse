@@ -1,15 +1,13 @@
 import React from 'react';
 import ChallengeCard from './Challenge';
 
-const Challengelist = () => {
+const Challengelist = ({ data }: any) => {
   return (
-    <>
-      <div>
-        <ChallengeCard />
-        <ChallengeCard />
-        <ChallengeCard />
+    data.map((item, index) => (
+      <div key={index}>
+        <ChallengeCard data={item} />
       </div>
-    </>
+    ))
   )
 }
 

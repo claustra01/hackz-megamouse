@@ -1,20 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Modal from './Modal';
+import Panel from './Panel';
 
-// const Card = (title: string, category: string, description: string, value: number) => {
-const ChallengeCard = () => {
+
+const ChallengeCard = (data: any) => {
+
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   return (
-    <div className="card">
-      <div className="card-content">
-        {/* <h2 className="card-title">{title}</h2>
-        <p className="card-category">{category}</p>
-        <p className="card-description">{description}</p>
-        <p className="card-value">{value}</p> */}
-        <h2 className="card-title">title</h2>
-        <p className="card-category">category</p>
-        <p className="card-description">description</p>
-        <p className="card-value">value</p>
-      </div>
-    </div>
+    <>
+      <box onClick={handleOpenModal}>
+        <div className="card">
+          <div className="card-content">
+            <h2 className="card-title">{data.data.title}</h2>
+            <p className="card-description">{data.data.description}</p>
+            <p className="card-value">{data.data.value}</p>
+          </div>
+        </div>
+      </box>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+        <Panel data={data.data} />
+      </Modal>
+    </>
   );
 };
 
