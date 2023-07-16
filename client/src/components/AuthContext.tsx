@@ -15,7 +15,10 @@ const initialAuthStatus: AuthStatus = {
   userId: 0,
 };
 
-const AuthContext = createContext<AuthStatus>(initialAuthStatus);
+const AuthContext = createContext<AuthStatus & { updateAuthStatus: (newStatus: AuthStatus) => void }>({
+  ...initialAuthStatus,
+  updateAuthStatus: () => {},
+});
 
 type AuthProviderProps = {
   children: ReactNode;
@@ -60,8 +63,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     fetchAuthToken();
   }, [cookies.token]);
 
+  // Function to update authStatus
+  const updateAuthStatus = (newStatus: AuthStatus) => {
+    setAuthStatus(newStatus);
+  };
+
   return (
-    <AuthContext.Provider value={authStatus}>
+    <AuthContext.Provider value={{ ...authStatus, updateAuthStatus }}>
       {children}
     </AuthContext.Provider>
   );
