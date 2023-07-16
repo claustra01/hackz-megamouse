@@ -3,10 +3,12 @@ import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useAuth } from '@/components/AuthContext';
 
 
 
 const Challenges = () => {
+  const { isAdmin } = useAuth();
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [cookies] = useCookies(['token']);
@@ -36,8 +38,7 @@ const Challenges = () => {
                 "filepath": "file",
                 "connection_info": "hoge",
                 "value": 0,
-                "is_visible": true,
-                // admin切り替え完成するまでtrue
+                "is_visible": false,
               }
             ]
           ]
@@ -56,7 +57,7 @@ const Challenges = () => {
   return (
     <>
       <div>
-        <Link href="/challenges/new">create</Link>
+        {isAdmin && <Link href="/challenges/new">create</Link>}
         {data.map((item, index) => (
           <div key={index}>
             <p>{categories[index]}</p>
