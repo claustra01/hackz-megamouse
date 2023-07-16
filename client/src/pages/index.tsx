@@ -28,6 +28,7 @@ const Button = styled.button`
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-family: 'Tektur', sans-serif;
 
   &:hover {
     background-color: #4682b4;

@@ -2,7 +2,6 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useRouter } from 'next/router';
-import Header from '../components/Header';
 import styled from 'styled-components';
 
 interface ApiResponse {
@@ -71,6 +70,7 @@ const LoginButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-family: 'Tektur', sans-serif;
 
   &:hover {
     background-color: #4682b4;
