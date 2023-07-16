@@ -52,7 +52,7 @@ const ButtonContainer = styled.div`
 const MainPage = () => {
   return (
     <MainContainer>
-      <Title>Megamouse CTF</Title>
+      <Title>Megamouth CTF</Title>
       <ButtonContainer>
         <Link href="/login">
           <Button>Login</Button>

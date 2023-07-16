@@ -44,7 +44,7 @@ const Header = () => {
   return (
     <HeaderWrapper>
       <Logo>
-        <Link href="/">Megamouse CTF</Link>
+        <Link href="/">Megamouth CTF</Link>
       </Logo>
       <NavLinks>
         <Link href="/scoreboard">Scoreboard</Link>
