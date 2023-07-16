@@ -1,3 +1,4 @@
 .env
-go.work.sum
 binary
+tmp/
+go.work*
