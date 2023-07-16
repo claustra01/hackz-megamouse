@@ -17,18 +17,22 @@ const ChallengeCard = (data: any) => {
   };
   return (
     <>
-      <box onClick={handleOpenModal}>
-        <div className="card">
-          <div className="card-content">
-            <h2 className="card-title">{data.data.title}</h2>
-            <p className="card-description">{data.data.description}</p>
-            <p className="card-value">{data.data.value}</p>
-          </div>
-        </div>
-      </box>
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-        <Panel data={data.data} />
-      </Modal>
+      {data.data.is_visible &&
+        <>
+          <box onClick={handleOpenModal}>
+            <div className="card">
+              <div className="card-content">
+                <h2 className="card-title">{data.data.title}</h2>
+                <p className="card-description">{data.data.description}</p>
+                <p className="card-value">{data.data.value}</p>
+              </div>
+            </div>
+          </box>
+          <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+            <Panel data={data.data} />
+          </Modal>
+        </>
+      }
     </>
   );
 };
