@@ -12,7 +12,7 @@ const Logout: React.FC = () => {
     router.push('/');
   }, [removeCookie, router]);
 
-  return <Header />
+  return null
 };
 
 export default Logout;

@@ -70,27 +70,24 @@ const SignupButton = styled.button`
 
 const Signup = () => {
   return (
-    <>
-      <Header />
-      <SignupContainer>
-        <SignupTitle>Signup</SignupTitle>
-        <SignupForm>
-          <FormField>
-            <label>Username:</label>
-            <input type="text" />
-          </FormField>
-          <FormField>
-            <label>Email:</label>
-            <input type="email" />
-          </FormField>
-          <FormField>
-            <label>Password:</label>
-            <input type="password" />
-          </FormField>
-          <SignupButton type="submit">Signup</SignupButton>
-        </SignupForm>
-      </SignupContainer>
-    </>
+    <SignupContainer>
+      <SignupTitle>Signup</SignupTitle>
+      <SignupForm>
+        <FormField>
+          <label>Username:</label>
+          <input type="text" />
+        </FormField>
+        <FormField>
+          <label>Email:</label>
+          <input type="email" />
+        </FormField>
+        <FormField>
+          <label>Password:</label>
+          <input type="password" />
+        </FormField>
+        <SignupButton type="submit">Signup</SignupButton>
+      </SignupForm>
+    </SignupContainer>
   );
 };
 

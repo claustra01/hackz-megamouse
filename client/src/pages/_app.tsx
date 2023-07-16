@@ -1,13 +1,18 @@
+// MyApp.tsx
+
+import Header from '@/components/Header';
 import { AuthProvider } from '../components/AuthContext';
 import type { AppProps } from 'next/app';
 import { createGlobalStyle } from 'styled-components';
 
-// グローバルスタイルとして定義
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     padding: 0;
+    font-family: 'Tektur', sans-serif;
   }
+
+  /* その他のスタイルをここに追加できます */
 `;
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -15,6 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <GlobalStyle />
       <AuthProvider>
+        <Header />
         <Component {...pageProps} />
       </AuthProvider>
     </>

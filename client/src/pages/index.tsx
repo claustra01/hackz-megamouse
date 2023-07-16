@@ -50,20 +50,17 @@ const ButtonContainer = styled.div`
 
 const MainPage = () => {
   return (
-    <>
-      <Header />
-      <MainContainer>
-        <Title>Megamouse CTF</Title>
-        <ButtonContainer>
-          <Link href="/login">
-            <Button>Login</Button>
-          </Link>
-          <Link href="/signup">
-            <Button>Sign Up</Button>
-          </Link>
-        </ButtonContainer>
-      </MainContainer>
-    </>
+    <MainContainer>
+      <Title>Megamouse CTF</Title>
+      <ButtonContainer>
+        <Link href="/login">
+          <Button>Login</Button>
+        </Link>
+        <Link href="/signup">
+          <Button>Sign Up</Button>
+        </Link>
+      </ButtonContainer>
+    </MainContainer>
   );
 };
 

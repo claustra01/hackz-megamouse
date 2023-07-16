@@ -125,24 +125,21 @@ const Login: React.FC = () => {
   };
 
   return (
-    <>
-      <Header />
-      <LoginContainer>
-        <LoginTitle>Login</LoginTitle>
-        <LoginForm onSubmit={handleSubmit}>
-          <FormField>
-            <label>Email:</label>
-            <input type="email" value={email} onChange={handleEmailChange} />
-          </FormField>
-          <FormField>
-            <label>Password:</label>
-            <input type="password" value={password} onChange={handlePasswordChange} />
-          </FormField>
-          <LoginButton type="submit">Login</LoginButton>
-          {responseMessage && <ErrorMessage>{responseMessage}</ErrorMessage>}
-        </LoginForm>
-      </LoginContainer>
-    </>
+    <LoginContainer>
+      <LoginTitle>Login</LoginTitle>
+      <LoginForm onSubmit={handleSubmit}>
+        <FormField>
+          <label>Email:</label>
+          <input type="email" value={email} onChange={handleEmailChange} />
+        </FormField>
+        <FormField>
+          <label>Password:</label>
+          <input type="password" value={password} onChange={handlePasswordChange} />
+        </FormField>
+        <LoginButton type="submit">Login</LoginButton>
+        {responseMessage && <ErrorMessage>{responseMessage}</ErrorMessage>}
+      </LoginForm>
+    </LoginContainer>
   );
 };
 
