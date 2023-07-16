@@ -9,7 +9,7 @@ services:
     volumes:
       - ./client:/opt/client
     ports:
-      - 8080:8080
+      - 3000:3000
 
   server:
     build:
@@ -18,7 +18,7 @@ services:
     volumes:
       - ./server:/opt/server
     ports:
-      - 8081:8081
+      - 8080:8080
 
   nginx:
     build:

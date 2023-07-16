@@ -69,5 +69,5 @@ func main() {
 
 	r.GET("/users/solves", handler.GetSolveList)
 
-	e.Logger.Fatal(e.Start(":8081"))
+	e.Logger.Fatal(e.Start(":8080"))
 }
