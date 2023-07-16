@@ -18,6 +18,7 @@ export const Title = styled.h1`
 
 export const Button = styled.button`
   padding: 10px 20px;
+  margin-top: 16px;
   font-size: 16px;
   font-weight: bold;
   color: #fff;
@@ -80,4 +81,23 @@ export const ErrorMessage = styled.p`
   color: #ff0000;
   font-size: 14px;
   margin-top: 10px;
+`;
+
+export const DataTable = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  & table {
+    border-collapse: collapse;
+    width: 80%;
+    max-width: 400px;
+    border: 1px solid #ccc;
+    & th,
+    td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ccc;
+    }
+  }
 `;

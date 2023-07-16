@@ -4,6 +4,8 @@ import { useRouter } from 'next/router';
 import { useAuth } from '@/components/AuthContext';
 import SolveCard from '@/components/SolveCard'; // SolveCardコンポーネントをインポート
 import styled from 'styled-components';
+import { Button, Container, DataTable, Title } from '@/styles/styledComponents';
+import { useCookies } from 'react-cookie';
 
 type UserProfile = {
   username: string;
@@ -13,49 +15,6 @@ type UserProfile = {
   is_admin: boolean;
   created_at: string;
 };
-
-const ProfileContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #f8f8f8;
-`;
-
-const ProfileHeader = styled.h1`
-  font-size: 48px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 20px;
-`;
-
-const ProfileData = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px; /* タイトルとコンテンツの間に余白を追加 */
-`;
-
-const EditProfileButton = styled.button`
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #fff;
-  background-color: #66b2ff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #4682b4;
-  }
-
-  &:focus {
-    outline: none;
-  }
-`;
 
 const SolvesContainer = styled.div`
   width: 400px; /* 解答一覧の幅を指定 */
@@ -73,6 +32,7 @@ const Profile: React.FC = () => {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [solves, setSolves] = useState<any[]>([]); // Solveデータを保持するstate
   const router = useRouter();
+  const [cookies] = useCookies(['token']); // Cookieからトークンを取得
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -90,7 +50,9 @@ const Profile: React.FC = () => {
       }
     };
 
-    fetchUserProfile();
+    if (userId) {
+      fetchUserProfile();
+    }
   }, [userId, router]);
 
   useEffect(() => {
@@ -98,11 +60,12 @@ const Profile: React.FC = () => {
       try {
         const response = await axios.get(`/api/auth/solves/users/${userId}`, {
           headers: {
-            Authorization: `Bearer ${document.cookie.split('token=')[1]}`,
+            Authorization: `Bearer ${cookies.token}`,
           },
         });
 
         if (response.status === 200) {
+          setSolves(response.data);
         } else {
           console.error('Error fetching solves:', response.data);
         }
@@ -111,8 +74,10 @@ const Profile: React.FC = () => {
       }
     };
 
-    fetchSolves();
-  }, []);
+    if (userId) {
+      fetchSolves();
+    }
+  }, [userId]);
 
   if (!userProfile) {
     return <div>Loading...</div>;
@@ -125,25 +90,45 @@ const Profile: React.FC = () => {
   };
 
   return (
-    <ProfileContainer>
-      <ProfileHeader>{userProfile.username}'s Profile</ProfileHeader>
-      <ProfileData>
-        <p>Email: {userProfile.email}</p>
-        <p>Username: {userProfile.username}</p>
-        <p>Profile: {userProfile.profile}</p>
-        <p>Score: {userProfile.score}</p>
-        <p>Is Admin: {userProfile.is_admin ? 'Yes' : 'No'}</p>
-        <p>Created At: {createdAtFormatted}</p>
-        <EditProfileButton onClick={handleEditProfile}>Edit Profile</EditProfileButton>
-      </ProfileData>
+    <Container>
+      <Title>{userProfile.username}'s Profile</Title>
+      <DataTable>
+        <table>
+          <tr>
+              <td>Email</td>
+              <td>{userProfile.email}</td>
+          </tr>
+          <tr>
+              <td>Username</td>
+              <td>{userProfile.username}</td>
+          </tr>
+          <tr>
+              <td>Profile</td>
+              <td>{userProfile.profile}</td>
+          </tr>
+          <tr>
+              <td>Score</td>
+              <td>{userProfile.score}</td>
+          </tr>
+          <tr>
+              <td>Admin</td>
+              <td>{userProfile.is_admin ? 'Yes' : 'No'}</td>
+          </tr>
+          <tr>
+              <td>Since</td>
+              <td>{createdAtFormatted}</td>
+          </tr>
+        </table>
+        <Button onClick={handleEditProfile}>Edit Profile</Button>
+      </DataTable>
 
       <SolvesContainer>
         <SolvesTitle>Solves List</SolvesTitle>
-        {solves.map((solve, index) => (
+        {solves && solves.map((solve, index) => (
           <SolveCard key={index} solve={solve} />
         ))}
       </SolvesContainer>
-    </ProfileContainer>
+    </Container>
   );
 };
 

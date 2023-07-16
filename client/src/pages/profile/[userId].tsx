@@ -4,6 +4,20 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import SolveCard from '@/components/SolveCard'; // SolveCardコンポーネントをインポート
+import styled from 'styled-components';
+import { Container, DataTable, Title } from '@/styles/styledComponents';
+import { useCookies } from 'react-cookie';
+
+const SolvesContainer = styled.div`
+  width: 400px; /* 解答一覧の幅を指定 */
+`;
+
+const SolvesTitle = styled.h2`
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+`;
 
 type UserProfile = {
   username: string;
@@ -19,6 +33,7 @@ const UserProfilePage: React.FC = () => {
   const { userId } = router.query; // パスパラメータからuserIdを取得
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [solves, setSolves] = useState<any[]>([]); // Solveデータを保持するstate
+  const [cookies] = useCookies(['token']); // Cookieからトークンを取得
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -46,11 +61,12 @@ const UserProfilePage: React.FC = () => {
       try {
         const response = await axios.get(`/api/auth/solves/users/${userId}`, {
           headers: {
-            Authorization: `Bearer ${document.cookie.split('token=')[1]}`,
+            Authorization: `Bearer ${cookies.token}`,
           },
         });
 
         if (response.status === 200) {
+          setSolves(response.data);
         } else {
           console.error('Error fetching solves:', response.data);
         }
@@ -71,24 +87,40 @@ const UserProfilePage: React.FC = () => {
   const createdAtFormatted = new Date(userProfile.created_at).toLocaleString();
 
   return (
-    <div>
-      <h1>{userProfile.username}'s Profile</h1>
-      <div>
-        <p>Email: {userProfile.email}</p>
-        <p>Username: {userProfile.username}</p>
-        <p>Profile: {userProfile.profile}</p>
-        <p>Score: {userProfile.score}</p>
-        <p>Is Admin: {userProfile.is_admin ? 'Yes' : 'No'}</p>
-        <p>Created At: {createdAtFormatted}</p>
-      </div>
+    <Container>
+      <Title>{userProfile.username}'s Profile</Title>
+      <DataTable>
+        <table>
+          <tr>
+              <td>Username</td>
+              <td>{userProfile.username}</td>
+          </tr>
+          <tr>
+              <td>Profile</td>
+              <td>{userProfile.profile}</td>
+          </tr>
+          <tr>
+              <td>Score</td>
+              <td>{userProfile.score}</td>
+          </tr>
+          <tr>
+              <td>Admin</td>
+              <td>{userProfile.is_admin ? 'Yes' : 'No'}</td>
+          </tr>
+          <tr>
+              <td>Since</td>
+              <td>{createdAtFormatted}</td>
+          </tr>
+        </table>
+      </DataTable>
 
-      <div>
-        <h2>Solves List</h2>
-        {solves.map((solve, index) => (
+      <SolvesContainer>
+        <SolvesTitle>Solves List</SolvesTitle>
+        {solves && solves.map((solve, index) => (
           <SolveCard key={index} solve={solve} />
         ))}
-      </div>
-    </div>
+      </SolvesContainer>
+    </Container>
   );
 };
 
