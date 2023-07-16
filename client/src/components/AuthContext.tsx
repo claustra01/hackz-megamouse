@@ -60,11 +60,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     fetchAuthToken();
   }, [cookies.token]);
 
-  // authStatusの変更を監視してコンソールに出力
-  useEffect(() => {
-    console.log('AuthStatus:', authStatus);
-  }, [authStatus]);
-
   return (
     <AuthContext.Provider value={authStatus}>
       {children}
