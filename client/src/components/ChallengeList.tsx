@@ -1,15 +1,12 @@
 import React from 'react';
 import ChallengeCard from './Challenge';
-import { Challenge } from '../lib/contents';
 
-interface datalist {
-  datalist: Challenge[]
-}
-
-const Challengelist = ({ datalist }: datalist) => {
+const Challengelist = ({ data }: any) => {
   return (
-    datalist.map(data => (
-      <ChallengeCard data={data} />
+    data.map((item, index) => (
+      <div key={index}>
+        <ChallengeCard data={item} />
+      </div>
     ))
   )
 }
