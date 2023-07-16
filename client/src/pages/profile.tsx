@@ -96,7 +96,7 @@ const Profile: React.FC = () => {
   useEffect(() => {
     const fetchSolves = async () => {
       try {
-        const response = await axios.get('/api/auth/solves', {
+        const response = await axios.get(`/api/auth/solves/users/${userId}`, {
           headers: {
             Authorization: `Bearer ${document.cookie.split('token=')[1]}`,
           },
