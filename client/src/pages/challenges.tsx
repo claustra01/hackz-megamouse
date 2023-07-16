@@ -18,11 +18,29 @@ const Challenges = () => {
           },
         });
         const data = response.data;
-        setData(data);
+        console.log(data)
         // レスポンスデータの処理
-        const fetchedcategories = data.map((arr) => arr[0].category);
-
-        setCategories(fetchedcategories)
+        if (data != null) {
+          setData(data);
+          const fetchedcategories = data.map((arr) => arr[0].category);
+          setCategories(fetchedcategories)
+        } else {
+          const nulldata = [
+            [
+              {
+                "id": 100000,
+                "title": "none",
+                "category": "none",
+                "description": "description",
+                "filepath": "file",
+                "connection_info": "hoge",
+                "value": 0,
+                "is_visible": false,
+              }
+            ]
+          ]
+          setData(nulldata);
+        }
 
       } catch (error) {
         console.error('Error:', error.message);
