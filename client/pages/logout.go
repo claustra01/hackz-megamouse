@@ -5,6 +5,7 @@ import (
 
 	"github.com/hexops/vecty"
 	"github.com/hexops/vecty/elem"
+	router "marwan.io/vecty-router"
 )
 
 type PLogout struct {
@@ -13,6 +14,8 @@ type PLogout struct {
 
 func (p *PLogout) Mount() {
 	js.Global().Get("document").Set("cookie", "token=")
+	router.Redirect("/")
+
 }
 
 func (p *PLogout) Render() vecty.ComponentOrHTML {

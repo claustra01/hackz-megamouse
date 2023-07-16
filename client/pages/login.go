@@ -9,6 +9,7 @@ import (
 	"github.com/hexops/vecty"
 	"github.com/hexops/vecty/elem"
 	"github.com/hexops/vecty/event"
+	router "marwan.io/vecty-router"
 )
 
 type PLogin struct {
@@ -95,6 +96,9 @@ func (p *PLogin) onClick(e *vecty.Event) {
 				// save cookie
 				js.Global().Get("document").Set("cookie", "token="+resBody.Token)
 				jslog.ConsoleLog("Login Successful!")
+
+				// redirect
+				router.Redirect("/")
 				return nil
 			}))
 		}
