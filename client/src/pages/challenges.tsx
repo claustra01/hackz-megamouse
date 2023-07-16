@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import Header from './components/Header';
-import ChallengeList from './components/ChallengeList';
+import Header from '../components/Header';
+import ChallengeList from '../components/ChallengeList';
 
 const Challenges = () => {
   return (
