@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useCookies } from 'react-cookie';
 import { useAuth } from '@/components/AuthContext';
+import { Container, Title, Button, ErrorMessage, DataTable } from '@/styles/styledComponents';
+import styled from 'styled-components';
 
 type UserProfile = {
   username: string;
@@ -10,6 +12,13 @@ type UserProfile = {
   profile: string;
   password: string;
 };
+
+const Input = styled.input`
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 5px;
+`;
 
 const ProfileEdit: React.FC = () => {
   const { userId } = useAuth();
@@ -22,7 +31,7 @@ const ProfileEdit: React.FC = () => {
   const [error, setError] = useState<string>('');
 
   const router = useRouter();
-  const [cookies] = useCookies(['token']); // Cookieからトークンを取得
+  const [cookies] = useCookies(['token']);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -56,7 +65,7 @@ const ProfileEdit: React.FC = () => {
       const api = axios.create({
         baseURL: '/api/auth/users',
         headers: {
-          Authorization: `Bearer ${cookies.token}`, // トークンをリクエストヘッダーに付与
+          Authorization: `Bearer ${cookies.token}`,
         },
       });
 
@@ -68,9 +77,8 @@ const ProfileEdit: React.FC = () => {
       });
 
       if (response.status === 200) {
-        // 保存成功時の処理
         console.log('Profile saved successfully!');
-        router.push('/profile'); // 保存成功後に/profileにリダイレクト
+        router.push('/profile');
       } else {
         setError(`Failed to save profile: ${response.data.message}`);
       }
@@ -84,30 +92,39 @@ const ProfileEdit: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>{userProfile.username}'s Profile</h1>
-      <div>
-        <div>
-          <label>Email:</label>
-          <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-        </div>
-        <div>
-          <label>Profile:</label>
-          <input type="text" value={profile} onChange={(e) => setProfile(e.target.value)} />
-        </div>
-        <div>
-          <label>Username:</label>
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          {password === '' && <p>Password is required.</p>}
-        </div>
-        <button onClick={handleSaveProfile}>Save Profile</button>
-        {error && <p>{error}</p>}
-      </div>
-    </div>
+    <Container>
+      <Title>Edit Profile</Title>
+      <DataTable>
+        <table>
+          <tr>
+            <td>Email</td>
+            <td>
+              <Input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+            </td>
+          </tr>
+          <tr>
+            <td>Profile</td>
+            <td>
+              <Input type="text" value={profile} onChange={(e) => setProfile(e.target.value)} />
+            </td>
+          </tr>
+          <tr>
+            <td>Username</td>
+            <td>
+              <Input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+            </td>
+          </tr>
+          <tr>
+            <td>Password</td>
+            <td>
+              <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            </td>
+          </tr>
+        </table>
+      </DataTable>
+      <Button onClick={handleSaveProfile}>Save Profile</Button>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+    </Container>
   );
 };
 

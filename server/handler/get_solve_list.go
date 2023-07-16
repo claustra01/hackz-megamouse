@@ -34,7 +34,7 @@ func ommit_sv(solves []db.Solves) []SolveRes {
 func GetSolveList(c echo.Context) error {
 	id := c.Param("id")
 	var solves []db.Solves
-	if err := db.DB.Where("user_id = ?", id).Order("value DESC").Find(&solves).Error; err != nil {
+	if err := db.DB.Where("user_id = ?", id).Order("created_at DESC").Find(&solves).Error; err != nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{
 			"message": "Failed to fetch solves",
 		})

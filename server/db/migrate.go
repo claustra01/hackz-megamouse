@@ -22,17 +22,22 @@ func Migrate() {
 	DB.AutoMigrate(&Solves{})
 
 	// create admin user
-	hashedPassword, err := util.HashPassword(os.Getenv("ADMIN_PASSWORD"))
-	if err != nil {
-		log.Fatal("[Error] Migration failed")
-	}
+	hashedPass, _ := util.HashPassword(os.Getenv("ADMIN_PASSWORD"))
 	admin := User{
 		Username: "admin",
-		Email:    "admin@megamouse.ctf",
-		Password: hashedPassword,
+		Email:    "admin@megamouth.ctf",
+		Password: hashedPass,
 		IsAdmin:  true,
 	}
 	DB.Create(&admin)
+
+	// create test user
+	user := User{
+		Username: "user",
+		Email:    "user@megamouth.ctf",
+		Password: hashedPass,
+	}
+	DB.Create(&user)
 
 	log.Print("[INFO] DB Migrated!")
 }

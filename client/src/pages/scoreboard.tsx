@@ -1,4 +1,5 @@
 import UserCard from '@/components/UserCard';
+import { Container, Title } from '@/styles/styledComponents';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -9,22 +10,6 @@ type Userdata = {
   profile: string;
   score: number;
 };
-
-const ScoreBoardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background-color: #f8f8f8;
-`;
-
-const ScoreBoardTitle = styled.h2`
-  font-size: 32px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 20px;
-`;
 
 const ScoreBoard = () => {
   const [userDataList, setUserDataList] = useState<Userdata[]>([]);
@@ -44,12 +29,12 @@ const ScoreBoard = () => {
   }, []);
 
   return (
-    <ScoreBoardContainer>
-      <ScoreBoardTitle>Scoreboard</ScoreBoardTitle>
+    <Container>
+      <Title>Scoreboard</Title>
       {userDataList.map((user, index) => (
         <UserCard key={index} user={user} index={index} />
       ))}
-    </ScoreBoardContainer>
+    </Container>
   );
 };
 
