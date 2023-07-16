@@ -1,4 +1,4 @@
-import { AuthProvider } from './AuthContext'; // 同じディレクトリにあるAuthContextをインポート
+import { AuthProvider } from '../components/AuthContext';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 
