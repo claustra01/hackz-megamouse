@@ -1,22 +1,20 @@
+import { UserScore } from '../lib/contents';
 import React from 'react';
 
-type UserScore = {
-  id: number
-  name: string
-  score: number
+interface UserscoreProps {
+  scores: UserScore[]
 }
-
-const ScoreList = (score: UserScore[]) => {
+const ScoreList = ({ scores }: UserscoreProps) => {
   return (
     <div className="score-list">
       <h2>score List</h2>
       <ul>
-        {score.map((score, index) => (
-          <li key={score.id}>
+        {scores.map((score: UserScore, index: number) => (
+          <ul key={score.id}>
             <span className="rank">{index + 1}</span>
             <span className="name">{score.name}</span>
             <span className="score">{score.score}</span>
-          </li>
+          </ul>
         ))}
       </ul>
     </div>
