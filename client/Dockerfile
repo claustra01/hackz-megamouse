@@ -6,6 +6,6 @@ WORKDIR /app/client
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -o binary
 
-EXPOSE 3000
+EXPOSE 8080
 
 CMD ["./binary"]
