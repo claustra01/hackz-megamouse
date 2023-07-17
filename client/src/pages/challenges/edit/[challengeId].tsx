@@ -70,7 +70,7 @@ const UpdateChallenge = () => {
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
   const [filePath, setFilePath] = useState('');
-  const [connectioninfo, setConnectionInfo] = useState('');
+  const [connectionInfo, setConnectionInfo] = useState('');
   const [flag, setFlag] = useState('');
   const [value, setValue] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
@@ -128,8 +128,8 @@ const UpdateChallenge = () => {
         title,
         category,
         description,
-        filePath,
-        connectioninfo,
+        file_path: filePath,
+        connection_info: connectionInfo,
         flag,
         value,
         is_visible: isVisible,
@@ -168,7 +168,7 @@ const UpdateChallenge = () => {
         </FormGroup>
         <FormGroup>
           <Label>Connection Info:</Label>
-          <Input type="text" value={connectioninfo} onChange={(e) => setConnectionInfo(e.target.value)} />
+          <Input type="text" value={connectionInfo} onChange={(e) => setConnectionInfo(e.target.value)} />
         </FormGroup>
         <FormGroup>
           <Label>Flag:</Label>
