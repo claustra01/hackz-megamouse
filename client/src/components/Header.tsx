@@ -15,10 +15,10 @@ const HeaderWrapper = styled.div`
     color: #fff;
     text-decoration: none;
     margin-left: 20px;
-    transition: color 0.3s ease; /* アニメーションの追加 */
+    transition: color 0.3s ease;
 
     &:hover {
-      color: #66b2ff; /* ホバー時の色指定 */
+      color: #ffac00; /* ホバー時の色指定 */
     }
   }
 `;
@@ -39,7 +39,7 @@ const NavLinks = styled.div`
 `;
 
 const Header = () => {
-  const { isLoggedIn } = useAuth(); 
+  const { isLoggedIn } = useAuth();
 
   return (
     <HeaderWrapper>
@@ -56,7 +56,8 @@ const Header = () => {
           </>
         ) : (
           <Link href="/login">Login</Link>
-        )}      </NavLinks>
+        )}
+      </NavLinks>
     </HeaderWrapper>
   );
 };
