@@ -9,7 +9,7 @@ const PanelContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background-color: #fff; /* 雰囲気に合った色 */
+  background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 300px;
@@ -20,7 +20,7 @@ const PanelContainer = styled.div`
     margin-bottom: 15px;
   }
 
-  .panel-content {
+  .panel-description {
     font-size: 16px;
     margin-bottom: 10px;
   }
@@ -61,7 +61,7 @@ const PanelContainer = styled.div`
       font-size: 16px;
       font-weight: bold;
       color: #fff;
-      background-color: #333; /* 雰囲気に合った色 */
+      background-color: #333;
       border: none;
       border-radius: 5px;
       cursor: pointer;
@@ -76,15 +76,45 @@ const PanelContainer = styled.div`
       }
     }
   }
+
+  .panel-submit-message {
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
+  .panel-success {
+    color: #00cc00;
+  }
+
+  .panel-failure {
+    color: #ff0000;
+  }
+`;
+
+const SubmitButton = styled.button`
+  color: #fff;
+  background-color: #333;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: 'Tektur', sans-serif;
+
+  &:hover {
+    background-color: #ffac00;
+  }
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 const Panel = (data: any) => {
   const [cookies] = useCookies(['token']);
   const [flag, setFlag] = useState('');
-  const [iscollect, setIsCollect] = useState(false);
+  const [isCollect, setIsCollect] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFlag(e.target.value);
   };
 
@@ -92,17 +122,14 @@ const Panel = (data: any) => {
     try {
       const api = axios.create({
         headers: {
-          Authorization: `Bearer ${cookies.token}`, // トークンをリクエストヘッダーに付与
+          Authorization: `Bearer ${cookies.token}`,
         },
-
       });
       const response = await api.post('/api/auth/submissions', {
         challenge_id: data.data.id,
         body: flag,
       });
       if (response.status === 201) {
-        // 保存成功時の処理
-        console.log('Response:', response.data);
         setIsCollect(response.data.is_collect);
         setIsSubmit(true);
       } else {
@@ -119,15 +146,18 @@ const Panel = (data: any) => {
       <div className="panel-description">{data.data.description}</div>
       <div className="panel-filepath">{data.data.filepath}</div>
       <div className="panel-connectioninfo">{data.data.connection_info}</div>
-      {!iscollect && (
+      {!isCollect && (
         <div>
           <p>flag</p>
           <input type="text" onChange={handleInputChange} />
-          <button onClick={handleSubmit}>submit</button>
+          <SubmitButton onClick={handleSubmit}>submit</SubmitButton>
         </div>
       )}
-      {iscollect === false && isSubmit && <p>Failed...</p>}
-      {iscollect && <p>Success!</p>}
+      {isSubmit && (
+        <p className={`panel-submit-message ${isCollect ? 'panel-success' : 'panel-failure'}`}>
+          {isCollect ? 'Success!' : 'Failed...'}
+        </p>
+      )}
     </PanelContainer>
   );
 };
