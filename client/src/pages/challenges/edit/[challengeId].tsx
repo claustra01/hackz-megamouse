@@ -26,9 +26,8 @@ const UpdateChallenge = () => {
   const [error, setError] = useState('');
 
   const router = useRouter();
+  const { challengeId } = router.query;
   const [cookies] = useCookies(['token']);
-  const challengeid = router.query.id;
-
 
   useEffect(() => {
     const fetchChallenge = async () => {
@@ -39,7 +38,7 @@ const UpdateChallenge = () => {
           },
 
         });
-        const response = await api.get(`/api/auth/challenges/${challengeid}`);
+        const response = await api.get(`/api/auth/challenges/${challengeId}`);
 
         if (response.status === 200) {
           console.log(response.data); // 成功した場合のレスポンスをログに表示
@@ -53,16 +52,16 @@ const UpdateChallenge = () => {
           setValue(value);
           setIsVisible(is_visible)
         } else {
-          router.push('/');
+          // router.push('/');
         }
       } catch (error) {
         console.error('Error fetching user profile:', error);
-        router.push('/');
+        // router.push('/');
       }
     };
 
     fetchChallenge();
-  }, [challengeid, router]);
+  }, [challengeId, router]);
 
   if (!challenge) {
     return <div>Loading...</div>;
@@ -76,7 +75,7 @@ const UpdateChallenge = () => {
         },
 
       });
-      const response = await api.put(`/api/auth/challenges/${challengeid}`, {
+      const response = await api.put(`/api/auth/challenges/${challengeId}`, {
         title,
         category,
         description,
