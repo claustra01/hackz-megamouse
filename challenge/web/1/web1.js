@@ -9,7 +9,7 @@ app.get("/", (req, res, next) => {
 
 const block = (req, res, next) => {
     if (req.path.includes('/flag')) {
-      return res.send(403, 'Forbidden');
+        return res.send(403, 'Forbidden');
     }
 
     next();
