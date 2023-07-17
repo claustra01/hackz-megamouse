@@ -22,10 +22,10 @@ const CategoryContainer = styled.div`
 `;
 
 const CategoryTitle = styled.h2`
-  font-size: 24px;
+  font-size: 35px;
   font-weight: bold;
   color: #333;
-  background-color: #ffac00; /* 雰囲気に合った色 */
+  background-color: #d3d3d3; /* 雰囲気に合った色 */
   padding: 10px 20px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
