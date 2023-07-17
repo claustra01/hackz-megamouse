@@ -7,6 +7,7 @@ import SolveCard from '@/components/SolveCard'; // SolveCardコンポーネン�
 import styled from 'styled-components';
 import { Container, DataTable, Title } from '@/styles/styledComponents';
 import { useCookies } from 'react-cookie';
+import { useAuth } from '@/components/AuthContext';
 
 const SolvesContainer = styled.div`
   width: 400px; /* 解答一覧の幅を指定 */
@@ -17,6 +18,20 @@ const SolvesTitle = styled.h2`
   font-weight: bold;
   color: #333;
   margin-bottom: 10px;
+`;
+const SwitchAdminButton = styled.button`
+  width: 5px
+  padding: 8px 16px;
+  background-color: #ffac00;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 8px;
+`;
+
+const AdminCell = styled.td`
+  text-align: left;
 `;
 
 type UserProfile = {
@@ -29,6 +44,7 @@ type UserProfile = {
 };
 
 const UserProfilePage: React.FC = () => {
+  const { isAdmin } = useAuth();
   const router = useRouter();
   const { userId } = router.query; // パスパラメータからuserIdを取得
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
@@ -84,6 +100,26 @@ const UserProfilePage: React.FC = () => {
     return <div>Loading...</div>;
   }
 
+  const switchAdmin = async () => {
+    try {
+      const response = await axios.put(`/api/auth/users/admin/${userId}`, {}, {
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      });
+      if (response.status === 200) {
+        console.log("switch success")
+        router.push(`/profile/${userId}`); // リダイレクト
+      } else {
+        console.error('Error fetching user:', response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching user:', error);
+    }
+  };
+
+
+
   const createdAtFormatted = new Date(userProfile.created_at).toLocaleString();
 
   return (
@@ -92,28 +128,36 @@ const UserProfilePage: React.FC = () => {
       <DataTable>
         <table>
           <tr>
-              <td>Email</td>
-              <td>{userProfile.email}</td>
+            <td>Email</td>
+            <td>{userProfile.email}</td>
           </tr>
           <tr>
-              <td>Username</td>
-              <td>{userProfile.username}</td>
+            <td>Username</td>
+            <td>{userProfile.username}</td>
           </tr>
           <tr>
-              <td>Profile</td>
-              <td>{userProfile.profile}</td>
+            <td>Profile</td>
+            <td>{userProfile.profile}</td>
           </tr>
           <tr>
-              <td>Score</td>
-              <td>{userProfile.score}</td>
+            <td>Score</td>
+            <td>{userProfile.score}</td>
           </tr>
           <tr>
-              <td>Admin</td>
-              <td>{userProfile.is_admin ? 'Yes' : 'No'}</td>
+            <td>Admin</td>
+            <td>{userProfile.is_admin ? 'Yes' : 'No'}</td>
+            {isAdmin &&
+              <>
+                <AdminCell></AdminCell>
+                <td>
+                  <SwitchAdminButton onClick={switchAdmin}>switch</SwitchAdminButton>
+
+                </td>
+              </>}
           </tr>
           <tr>
-              <td>Since</td>
-              <td>{createdAtFormatted}</td>
+            <td>Since</td>
+            <td>{createdAtFormatted}</td>
           </tr>
         </table>
       </DataTable>

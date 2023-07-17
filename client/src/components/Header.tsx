@@ -39,7 +39,7 @@ const NavLinks = styled.div`
 `;
 
 const Header = () => {
-  const { isLoggedIn } = useAuth();
+  const { isAdmin, isLoggedIn } = useAuth();
 
   return (
     <HeaderWrapper>
@@ -47,6 +47,7 @@ const Header = () => {
         <Link href="/">Megamouth CTF</Link>
       </Logo>
       <NavLinks>
+        {isAdmin && <Link href="/challenges/new">＋Add Challenge</Link>}
         <Link href="/scoreboard">Scoreboard</Link>
         {isLoggedIn ? (
           <>
