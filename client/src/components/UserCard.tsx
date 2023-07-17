@@ -1,3 +1,4 @@
+// UserCard.tsx
 import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
@@ -19,12 +20,7 @@ const UserCardContainer = styled.div`
   align-items: center;
   padding: 10px;
   border-bottom: 1px solid #ccc;
-  width: 400px;
-`;
-
-const Rank = styled.div`
-  font-weight: bold;
-  width: 30px;
+  width: 500px; /* 幅を調整 */
 
   /* 1位には金の色を適用 */
   ${(props) => props.index === 0 && 'color: #FFD700;'}
@@ -32,6 +28,14 @@ const Rank = styled.div`
   ${(props) => props.index === 1 && 'color: #C0C0C0;'}
   /* 3位には銅の色を適用 */
   ${(props) => props.index === 2 && 'color: #CD7F32;'}
+
+  /* Rankの数字を中央に揃える */
+  justify-content: center;
+`;
+
+const Rank = styled.div`
+  font-weight: bold;
+  width: 30px;
 `;
 
 const Username = styled.div`
@@ -42,7 +46,7 @@ const Username = styled.div`
 
 const Profile = styled.div`
   margin-right: 20px;
-  width: 100px;
+  width: 200px; /* 幅を調整 */
 `;
 
 const Score = styled.div`
@@ -59,7 +63,7 @@ const UserCard = ({ user, index }: UserCardProps) => {
 
   return (
     <UserCardContainer onClick={handleUsernameClick}>
-      <Rank index={index}>{index + 1}</Rank>
+      <Rank>{index + 1}</Rank>
       <Username>{user.username}</Username>
       <Profile>{user.profile}</Profile>
       <Score>{user.score}</Score>

@@ -1,3 +1,4 @@
+// ScoreBoard.tsx
 import UserCard from '@/components/UserCard';
 import { Container, Title } from '@/styles/styledComponents';
 import axios from 'axios';
