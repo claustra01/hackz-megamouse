@@ -144,7 +144,11 @@ const Panel = (data: any) => {
     <PanelContainer>
       <h2 className="panel-title">{data.data.title}</h2>
       <div className="panel-description">{data.data.description}</div>
-      <div className="panel-filepath">{data.data.filepath}</div>
+      <div className="panel-filepath">
+        <a href={data.data.filepath} download={data.data.filepath}>
+          {data.data.filepath}
+        </a>
+      </div>
       <div className="panel-connectioninfo">{data.data.connection_info}</div>
       {!isCollect && (
         <div>
