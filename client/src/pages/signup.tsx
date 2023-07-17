@@ -2,6 +2,12 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { Title, Form, FormField, Button, ErrorMessage, Container } from '@/styles/styledComponents';
+import { useCookies } from 'react-cookie';
+
+interface ApiResponse {
+  token?: string;
+  message?: string;
+}
 
 const Signup: React.FC = () => {
   const [username, setUsername] = useState<string>('');
@@ -9,6 +15,8 @@ const Signup: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [responseMessage, setResponseMessage] = useState<string>('');
   const router = useRouter();
+  const [cookies, setCookie] = useCookies(['token']);
+
 
   const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -32,8 +40,23 @@ const Signup: React.FC = () => {
       });
 
       if (response.status === 201) {
-        // User created successfully, you can handle success here, e.g., show a success message, redirect to login, etc.
-        router.push('/login'); // Redirect to login page after successful signup
+        // try login after successful signup
+        try {
+          const response = await axios.post<ApiResponse>('/api/login', {
+            email,
+            password,
+          });
+    
+          if (response.status === 200 && response.data.token) {
+            const data = response.data;
+            setCookie('token', data.token, { path: '/' });
+            router.push('/');
+          } else {
+            router.push('/login');
+          }
+        } catch (error) {
+          router.push('/login');
+        }
       } else {
         if (response.data && response.data.message) {
           setResponseMessage(`Signup Failed: ${response.data.message}`);
