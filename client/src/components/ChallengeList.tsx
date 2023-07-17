@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Modal from './Modal';
 import Panel from './Panel';
+import { useRouter } from 'next/router';
+import { useAuth } from './AuthContext';
 
 const CardContainer = styled.div`
   display: flex;
@@ -40,9 +42,27 @@ const Card = styled.div`
     font-weight: bold;
     color: #ffac00;
   }
+  .card-buttons {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .card-button {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color:#ffac00;
+    font-size: 20px;
+    font-family: 'Tektur', sans-serif;
+  }
 `;
 
 const ChallengeCard = ({ data }) => {
+  const { isAdmin } = useAuth();
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -52,6 +72,9 @@ const ChallengeCard = ({ data }) => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+  const EditChallenge = () => {
+    router.push(`/challenges/edit/${data.id}`);
+  };
 
   return (
     <>
@@ -60,6 +83,9 @@ const ChallengeCard = ({ data }) => {
           <h2 className="card-title">{data.title}</h2>
           <p className="card-description">{data.description}</p>
           <p className="card-value">{data.value}</p>
+        </div>
+        <div className='card-buttons'>
+          {isAdmin && <button className='card-button' onClick={EditChallenge}>edit</button>}
         </div>
       </Card>
       <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
