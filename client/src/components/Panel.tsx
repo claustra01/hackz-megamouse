@@ -149,7 +149,16 @@ const Panel = (data: any) => {
           {data.data.filepath}
         </a>
       </div>
-      <div className="panel-connectioninfo">{data.data.connection_info}</div>
+      {data.data.connection_info.startsWith('http')
+        ?
+        <div className="panel-connectioninfo">
+          <a href={data.data.connection_info} >
+            {data.data.connection_info}
+          </a>
+        </div>
+        : 
+        <div className="panel-connectioninfo">{data.data.connection_info}</div>
+      }
       {!isCollect && (
         <div>
           <p>flag</p>
