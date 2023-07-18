@@ -6,37 +6,28 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
+    volumes:
+      - ./client:/opt/client
     ports:
-      - 8080:8080
+      - 3000:3000
 
   server:
     build:
       context: ./server
       dockerfile: Dockerfile
-    env_file:
-      - ./server/.env
+    volumes:
+      - ./server:/opt/server
     ports:
-      - 8081:8081
+      - 8080:8080
 
-  proxy:
+  nginx:
     build:
-      context: ./proxy
+      context: ./nginx
       dockerfile: Dockerfile
+    volumes:
+      - ./nginx:/usr/share/nginx/html
     ports:
       - 80:80
     depends_on:
       - client
       - server
-
-  # /* dsn: "postgresql://db_user:db_pass@hackz-megamouse-db-1:5432/db" */
-  # db:
-  #   image: postgres:latest
-  #   environment:
-  #     POSTGRES_USER: db_user
-  #     POSTGRES_PASSWORD: db_pass
-  #     POSTGRES_DB: db
-  #   volumes:
-  #     - db_data:/var/lib/postgresql/data
-  
-# volumes:
-#   db_data:

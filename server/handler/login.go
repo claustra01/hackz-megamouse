@@ -54,7 +54,7 @@ func Login(c echo.Context) error {
 		if err := util.ComparePasswords(user.Password, obj.Password); err != nil {
 			// return 401
 			return c.JSON(http.StatusUnauthorized, echo.Map{
-				"message": "Unauthorized",
+				"message": "Invalid Password",
 			})
 
 		} else {

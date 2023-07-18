@@ -1,22 +1,13 @@
-FROM golang:1.18-alpine AS build
+FROM node:18-alpine
 
-WORKDIR /build
+WORKDIR /opt/client
+
+COPY package*.json ./
+RUN npm install
 
 COPY . .
-RUN GOOS=js GOARCH=wasm go build -o main.wasm
-RUN cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" .
+EXPOSE 3000
 
-################################
-FROM nginx:alpine
-ENV TZ /usr/share/zoneinfo/Asia/Tokyo
-
-ADD default.conf /etc/nginx/conf.d
-
-WORKDIR /etc/nginx/html
-COPY --from=build /build/index.html .
-COPY --from=build /build/main.wasm .
-COPY --from=build /build/wasm_exec.js .
-COPY --from=build /build/assets ./assets
-
-EXPOSE 8080
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "run", "dev"]
+# RUN npm run build
+# CMD ["npm", "start"]

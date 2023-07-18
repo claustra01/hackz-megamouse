@@ -38,7 +38,7 @@ func NewUser(c echo.Context) error {
 	if err := db.DB.Where("email = ?", obj.Email).First(&user).Error; err != nil {
 
 		if err == gorm.ErrRecordNotFound {
-			hashedPassword, err := util.HashPassword(obj.Password)
+			hashedPass, err := util.HashPassword(obj.Password)
 			if err != nil {
 				// return 500
 				return c.JSON(http.StatusInternalServerError, echo.Map{
@@ -49,7 +49,7 @@ func NewUser(c echo.Context) error {
 			new := db.User{
 				Username: obj.Username,
 				Email:    obj.Email,
-				Password: hashedPassword,
+				Password: hashedPass,
 			}
 			db.DB.Create(&new)
 			return c.JSON(http.StatusCreated, echo.Map{
