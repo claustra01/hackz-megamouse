@@ -16,7 +16,7 @@ const Logout: React.FC = () => {
       userId: 0,
     });
     router.push('/');
-  }, [removeCookie, router]);
+  }, [removeCookie, router, updateAuthStatus]);
 
   return null
 };

@@ -80,7 +80,7 @@ const Challenges = () => {
     };
 
     fetchData();
-  }, []);
+  }, [cookies.token]);
 
   return (
     <ChallengesContainer>
