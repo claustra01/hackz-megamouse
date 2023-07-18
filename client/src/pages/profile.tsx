@@ -77,7 +77,7 @@ const Profile: React.FC = () => {
     if (userId) {
       fetchSolves();
     }
-  }, [userId]);
+  }, [userId, cookies.token]);
 
   if (!userProfile) {
     return <div>Loading...</div>;
@@ -91,7 +91,7 @@ const Profile: React.FC = () => {
 
   return (
     <Container>
-      <Title>{userProfile.username}'s Profile</Title>
+      <Title>{userProfile.username}&apos;s Profile</Title>
       <DataTable>
         <table>
           <tr>
