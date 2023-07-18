@@ -13,7 +13,6 @@ type OmmitedUser struct {
 	Id        uint      `json:"id"`
 	Username  string    `json:"username"`
 	Profile   string    `json:"profile"`
-	Email     string    `json:"email"`
 	Score     uint      `json:"score"`
 	IsAdmin   bool      `json:"is_admin"`
 	CreatedAt time.Time `json:"created_at"`
@@ -27,7 +26,6 @@ func ommit(users []db.User) []OmmitedUser {
 			Id:        v.Id,
 			Username:  v.Username,
 			Profile:   v.Profile,
-			Email:     v.Email,
 			Score:     v.Score,
 			IsAdmin:   v.IsAdmin,
 			CreatedAt: v.CreatedAt,

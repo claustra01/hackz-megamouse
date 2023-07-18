@@ -36,7 +36,6 @@ const AdminCell = styled.td`
 
 type UserProfile = {
   username: string;
-  email: string;
   profile: string;
   score: number;
   is_admin: boolean;
@@ -127,10 +126,6 @@ const UserProfilePage: React.FC = () => {
       <Title>{userProfile.username}'s Profile</Title>
       <DataTable>
         <table>
-          <tr>
-            <td>Email</td>
-            <td>{userProfile.email}</td>
-          </tr>
           <tr>
             <td>Username</td>
             <td>{userProfile.username}</td>

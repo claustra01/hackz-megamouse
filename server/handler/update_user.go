@@ -57,11 +57,18 @@ func UpdateUser(c echo.Context) error {
 			})
 
 		} else {
+			hashedPass, err := util.HashPassword(obj.Password)
+			if err != nil {
+				// return 500
+				return c.JSON(http.StatusInternalServerError, echo.Map{
+					"message": "Password Hashing Error",
+				})
+			}
 			// update user, return 200
 			user.Username = obj.Username
 			user.Profile = obj.Profile
 			user.Email = obj.Email
-			user.Password = obj.Password
+			user.Password = hashedPass
 			user.UpdatedAt = time.Now()
 			db.DB.Save(&user)
 			return c.JSON(http.StatusOK, echo.Map{
